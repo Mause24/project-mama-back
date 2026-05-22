@@ -15,6 +15,7 @@ const corsOptions = {
         "http://localhost:3000",
         "http://localhost:5173",
         "https://localhost:777",
+        "http://localhost:777",
     ], // Añade los puertos de tu frontend
     credentials: true,
 }

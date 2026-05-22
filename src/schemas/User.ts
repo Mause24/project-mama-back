@@ -17,7 +17,7 @@ export const registerSchema = Joi.object({
     name: Joi.string().required(),
     lastname: Joi.string().required(),
     phone: Joi.string().required(),
-    companyName: Joi.string().optional(),
+    companyName: Joi.string().required(),
 })
 
 export const loginSchema = Joi.object({
