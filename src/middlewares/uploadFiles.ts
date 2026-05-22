@@ -1,7 +1,7 @@
 import { Request } from "express"
-import fs from "fs"
 import multer, { FileFilterCallback } from "multer"
-import path from "path"
+import fs from "node:fs"
+import path from "node:path"
 import { JWTInterface, UpLoadFilesOptions } from "../interfaces"
 import User from "../models/User"
 
@@ -21,9 +21,15 @@ const useStorageFiles = async (
         case file.mimetype.startsWith("image/"): {
             dataDirectory = path.join(basePath, "images")
             if (!fs.existsSync(dataDirectory)) fs.mkdirSync(dataDirectory)
-            const parsedUser = JSON.parse(
-                (req.query["jwt"] as string) ?? ""
-            ) as JWTInterface
+            // Safely parse JWT query parameter; handle malformed JSON gracefully
+            const jwtString = (req.query["jwt"] as string) ?? ""
+            let parsedUser: JWTInterface | null = null
+            try {
+                parsedUser = JSON.parse(jwtString) as JWTInterface
+            } catch {
+                // If parsing fails, keep parsedUser as null
+                parsedUser = null
+            }
 
             if (parsedUser) {
                 const user = await User.findByPk(parsedUser.id)

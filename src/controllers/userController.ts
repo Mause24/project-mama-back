@@ -57,6 +57,7 @@ export const register = async (
 ) => {
     try {
         const user = await registerService(req.body)
+
         res.status(RESPONSES.CREATED.status).json({
             message: RESPONSES.CREATED.message,
             data: user,
@@ -86,9 +87,18 @@ export const updateImageUser = async (
     res: Response
 ) => {
     try {
-        const parsedUser = JSON.parse(
-            (req.query["jwt"] as string) ?? ""
-        ) as JWTInterface
+        // Safely parse JWT query parameter; handle malformed JSON gracefully
+        const jwtString = (req.query["jwt"] as string) ?? ""
+        let parsedUser: JWTInterface | null = null
+        try {
+            parsedUser = JSON.parse(jwtString) as JWTInterface
+        } catch {
+            parsedUser = null
+        }
+        if (!parsedUser) {
+            res.status(400).json({ message: "Invalid or missing JWT token" })
+            return
+        }
         const user = await updateImageUserService(req.file, parsedUser.id)
         res.status(RESPONSES.UPDATED.status).json({
             message: RESPONSES.UPDATED.message,
