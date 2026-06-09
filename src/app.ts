@@ -1,4 +1,3 @@
-import cors from "cors"
 import express, { Application, NextFunction, Request, Response } from "express"
 import morgan from "morgan"
 import path from "node:path"
@@ -10,20 +9,15 @@ const app: Application = express()
 
 // CONFIGURACIÓN DE CORS
 // Es mejor definir el protocolo y el puerto para evitar bloqueos del navegador
-const corsOptions = {
-    origin: [
-        "http://localhost:3000",
-        "http://localhost:5173",
-        "https://localhost:777",
-    ], // Añade los puertos de tu frontend
-    credentials: true,
-}
+/* const corsOptions = {
+    origin: ["*"], // Añade los puertos de tu frontend
+} */
 
 // SEGURIDAD BÁSICA
 app.disable("x-powered-by")
 
 // MIDDLEWARES
-app.use(cors(corsOptions))
+// app.use(cors(corsOptions))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(morgan("dev"))
