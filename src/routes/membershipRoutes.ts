@@ -59,4 +59,3 @@ membershipRoutes.delete(
     validatorParams(membershipIdSchema),
     removeMembership
 )
-
