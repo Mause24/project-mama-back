@@ -44,6 +44,7 @@ export const authentication =
                 })
                 return
             }
+
             req.query["jwt"] = JSON.stringify(jwtDecoded)
             next()
         } catch (error) {
