@@ -27,4 +27,3 @@ export class CannotDeleteMembershipException extends GeneralException {
         this.name = "CannotDeleteMembershipException"
     }
 }
-
