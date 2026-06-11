@@ -1,7 +1,7 @@
 import {
     CannotCreateMembershipException,
-    CannotUpdateMembershipException,
     CannotDeleteMembershipException,
+    CannotUpdateMembershipException,
     MembershipNotFoundException,
 } from "../errors"
 import Membership from "../models/Membership"
@@ -58,7 +58,9 @@ export const updateMembership = async (
         await membership.save()
     } catch (err) {
         throw new CannotUpdateMembershipException(
-            err instanceof Error ? err.message : "Error al actualizar la membresía"
+            err instanceof Error
+                ? err.message
+                : "Error al actualizar la membresía"
         )
     }
     return membership
@@ -77,7 +79,9 @@ export const deleteMembership = async (id: number): Promise<void> => {
         await membership.destroy()
     } catch (err) {
         throw new CannotDeleteMembershipException(
-            err instanceof Error ? err.message : "Error al eliminar la membresía"
+            err instanceof Error
+                ? err.message
+                : "Error al eliminar la membresía"
         )
     }
 }

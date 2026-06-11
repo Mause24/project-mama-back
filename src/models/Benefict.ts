@@ -7,16 +7,16 @@ import {
 } from "sequelize"
 import { sequelize } from "../database"
 
-class Membership extends Model<
-    InferAttributes<Membership>,
-    InferCreationAttributes<Membership>
+class Benefict extends Model<
+    InferAttributes<Benefict>,
+    InferCreationAttributes<Benefict>
 > {
     declare id: CreationOptional<number>
     declare name: string
-    declare price: string
+    declare description: CreationOptional<string>
 }
 
-Membership.init(
+Benefict.init(
     {
         id: {
             type: DataTypes.BIGINT,
@@ -27,15 +27,16 @@ Membership.init(
             type: DataTypes.STRING(100),
             allowNull: false,
         },
-        price: {
-            type: DataTypes.DECIMAL(10, 2),
-            allowNull: false,
+        description: {
+            type: DataTypes.TEXT,
+            allowNull: true, // Lo dejamos null para mayor flexibilidad
         },
     },
     {
         sequelize,
-        paranoid: true,
+        paranoid: true, // Mantenemos el soft delete como en Membership
+        tableName: "beneficts", // Forzamos el nombre plural exacto
     }
 )
 
-export default Membership
+export default Benefict
