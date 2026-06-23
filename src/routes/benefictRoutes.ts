@@ -5,7 +5,7 @@ import {
     getBenefictById,
     removeBenefict,
     updateBenefict,
-} from "../controllers/benefictController"
+} from "../controllers"
 import { PROFILES } from "../interfaces"
 import { authentication, validatorBody, validatorParams } from "../middlewares"
 import {
