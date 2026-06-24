@@ -6,7 +6,7 @@ import {
     getMembershipById,
     removeMembership,
     updateMembership,
-} from "../controllers/membershipController"
+} from "../controllers"
 import { PROFILES } from "../interfaces"
 import { authentication, validatorBody, validatorParams } from "../middlewares"
 import {
