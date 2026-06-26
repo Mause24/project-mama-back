@@ -15,13 +15,14 @@ import Benefict from "../models/Benefict"
  */
 export const createBenefict = async (
     name: string,
+    membershipId: number,
     description?: string
 ): Promise<Benefict> => {
     // Validaciones de entrada
     validateName(name)
 
     // Persistencia
-    return await Benefict.create({ name, description })
+    return await Benefict.create({ name, description, membershipId })
 }
 
 /**
