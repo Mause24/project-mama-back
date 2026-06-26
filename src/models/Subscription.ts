@@ -18,7 +18,6 @@ class Subscription extends Model<
     declare membershipId: number
     declare startDate: CreationOptional<Date>
     declare endDate: Date
-    declare status: CreationOptional<"ACTIVE" | "INACTIVE" | "EXPIRED">
 }
 
 Subscription.init(
@@ -32,7 +31,7 @@ Subscription.init(
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {
-                model: "Users",
+                model: User,
                 key: "id",
             },
         },
@@ -40,7 +39,7 @@ Subscription.init(
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {
-                model: "Memberships",
+                model: Membership,
                 key: "id",
             },
         },
@@ -52,11 +51,6 @@ Subscription.init(
         endDate: {
             type: DataTypes.DATE,
             allowNull: false,
-        },
-        status: {
-            type: DataTypes.ENUM("ACTIVE", "INACTIVE", "EXPIRED"),
-            allowNull: false,
-            defaultValue: "ACTIVE",
         },
     },
     {
@@ -77,6 +71,22 @@ User.belongsToMany(Membership, {
 
 Membership.belongsToMany(User, {
     through: Subscription,
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+    foreignKey: {
+        name: "membershipId",
+    },
+})
+
+Subscription.belongsTo(User, {
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+    foreignKey: {
+        name: "userId",
+    },
+})
+
+Subscription.belongsTo(Membership, {
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
     foreignKey: {
