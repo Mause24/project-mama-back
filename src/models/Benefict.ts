@@ -1,11 +1,13 @@
 import {
     CreationOptional,
     DataTypes,
+    ForeignKey,
     InferAttributes,
     InferCreationAttributes,
     Model,
 } from "sequelize"
 import { sequelize } from "../database"
+import Membership from "./Membership"
 
 class Benefict extends Model<
     InferAttributes<Benefict>,
@@ -14,6 +16,7 @@ class Benefict extends Model<
     declare id: CreationOptional<number>
     declare name: string
     declare description: CreationOptional<string>
+    declare membershipId: ForeignKey<Membership["id"]>
 }
 
 Benefict.init(
@@ -38,5 +41,14 @@ Benefict.init(
         tableName: "beneficts", // Forzamos el nombre plural exacto
     }
 )
+
+Benefict.belongsTo(Membership, {
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+    foreignKey: {
+        name: "membershipId",
+        allowNull: false,
+    },
+})
 
 export default Benefict
