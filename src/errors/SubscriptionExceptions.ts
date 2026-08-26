@@ -14,6 +14,20 @@ export class CannotCreateSubscriptionException extends GeneralException {
     }
 }
 
+export class CannotUpdateSubscriptionException extends GeneralException {
+    constructor(message = "No se pudo actualizar la suscripción") {
+        super(message)
+        this.name = "CannotUpdateSubscriptionException"
+    }
+}
+
+export class CannotDeleteSubscriptionException extends GeneralException {
+    constructor(message = "No se pudo eliminar la suscripción") {
+        super(message)
+        this.name = "CannotDeleteSubscriptionException"
+    }
+}
+
 export class SubscriptionUserNotFoundException extends GeneralException {
     constructor(
         message = "El usuario proporcionado para la suscripción no existe"
@@ -38,5 +52,11 @@ export class ActiveSubscriptionExistsException extends GeneralException {
     ) {
         super(message)
         this.name = "ActiveSubscriptionExistsException"
+    }
+}
+export class SubscriptionQueryException extends GeneralException {
+    constructor(message = "Error al consultar la suscripción") {
+        super(message)
+        this.name = "SubscriptionQueryException"
     }
 }

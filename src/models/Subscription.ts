@@ -1,13 +1,13 @@
 import {
-    Model,
+    CreationOptional,
     DataTypes,
     InferAttributes,
     InferCreationAttributes,
-    CreationOptional,
+    Model,
 } from "sequelize"
 import { sequelize } from "../database"
-import User from "./User"
 import Membership from "./Membership"
+import User from "./User"
 
 class Subscription extends Model<
     InferAttributes<Subscription>,
@@ -18,6 +18,7 @@ class Subscription extends Model<
     declare membershipId: number
     declare startDate: CreationOptional<Date>
     declare endDate: Date
+    declare status: CreationOptional<"ACTIVE" | "INACTIVE" | "EXPIRED">
 }
 
 Subscription.init(
@@ -51,6 +52,11 @@ Subscription.init(
         endDate: {
             type: DataTypes.DATE,
             allowNull: false,
+        },
+        status: {
+            type: DataTypes.ENUM("ACTIVE", "INACTIVE", "EXPIRED"),
+            allowNull: false,
+            defaultValue: "ACTIVE",
         },
     },
     {

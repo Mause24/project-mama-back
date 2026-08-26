@@ -3,16 +3,18 @@ import { RESPONSES } from "../utils"
 import { authRoutes } from "./authRoutes"
 import { benefictRoutes } from "./benefictRoutes"
 import { membershipRoutes } from "./membershipRoutes"
-import { userRoutes } from "./userRoutes"
+import { productRoutes } from "./productRoutes"
 import { subscriptionRoutes } from "./subscriptionRoutes"
+import { userRoutes } from "./userRoutes"
 
 export const generalRoutes = Router()
 // ROUTES
 generalRoutes.use("/auth", authRoutes)
 generalRoutes.use("/user", userRoutes)
 generalRoutes.use("/membership", membershipRoutes)
-generalRoutes.use("/benefict", benefictRoutes)
 generalRoutes.use("/subscription", subscriptionRoutes)
+generalRoutes.use("/benefict", benefictRoutes)
+generalRoutes.use("/products", productRoutes)
 
 //DEFAULT
 generalRoutes.use("/", async (_, res) => {
