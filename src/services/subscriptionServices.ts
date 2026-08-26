@@ -1,15 +1,16 @@
+import {
+    ActiveSubscriptionExistsException,
+    CannotCreateSubscriptionException,
+    CannotDeleteSubscriptionException,
+    CannotUpdateSubscriptionException,
+    SubscriptionMembershipNotFoundException,
+    SubscriptionNotFoundException,
+    SubscriptionQueryException,
+    SubscriptionUserNotFoundException,
+} from "../errors"
+import Membership from "../models/Membership"
 import Subscription from "../models/Subscription"
 import User from "../models/User"
-import Membership from "../models/Membership"
-import {
-    SubscriptionNotFoundException,
-    CannotCreateSubscriptionException,
-    CannotUpdateSubscriptionException,
-    CannotDeleteSubscriptionException,
-    SubscriptionUserNotFoundException,
-    SubscriptionMembershipNotFoundException,
-    ActiveSubscriptionExistsException,
-} from "../errors"
 
 export const createSubscription = async (data: {
     userId: number
@@ -19,25 +20,38 @@ export const createSubscription = async (data: {
 }) => {
     // 1. Validar que el usuario exista
     const userExists = await User.findByPk(data.userId)
+
     if (!userExists) {
         throw new SubscriptionUserNotFoundException()
     }
 
     // 2. Validar que la membresía exista
     const membershipExists = await Membership.findByPk(data.membershipId)
+
     if (!membershipExists) {
         throw new SubscriptionMembershipNotFoundException()
     }
 
     // 3. Regla de negocio: Validar si el usuario ya tiene una suscripción activa
-    const activeSubscription = await Subscription.findOne({
-        where: {
-            userId: data.userId,
-            status: "ACTIVE",
-        },
-    })
-    if (activeSubscription) {
-        throw new ActiveSubscriptionExistsException()
+    console.log("Entre")
+    try {
+        const activeSubscription = await Subscription.findOne({
+            where: {
+                userId: data.userId,
+                status: "ACTIVE",
+            },
+        })
+        console.log("activeSubscription")
+        console.log(activeSubscription)
+        if (activeSubscription) {
+            throw new ActiveSubscriptionExistsException()
+        }
+    } catch (error) {
+        throw new SubscriptionQueryException(
+            error instanceof Error
+                ? error.message
+                : "Error al consultar la suscripción"
+        )
     }
 
     // 4. Intentar crear en la base de datos controlando errores del ORM

@@ -54,3 +54,9 @@ export class ActiveSubscriptionExistsException extends GeneralException {
         this.name = "ActiveSubscriptionExistsException"
     }
 }
+export class SubscriptionQueryException extends GeneralException {
+    constructor(message = "Error al consultar la suscripción") {
+        super(message)
+        this.name = "SubscriptionQueryException"
+    }
+}

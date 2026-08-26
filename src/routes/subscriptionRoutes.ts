@@ -29,7 +29,7 @@ subscriptionRoutes.get("/", authentication(), getAllSubscriptions)
 // CREATE – POST /subscription (solo ADMIN)
 subscriptionRoutes.post(
     "/",
-    authentication(),
+    authentication([PROFILES.ADMIN]),
     validatorBody(createSubscriptionSchema),
     createSubscription
 )

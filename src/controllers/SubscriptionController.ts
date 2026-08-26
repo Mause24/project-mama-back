@@ -6,6 +6,7 @@ import {
     CannotUpdateSubscriptionException,
     SubscriptionMembershipNotFoundException,
     SubscriptionNotFoundException,
+    SubscriptionQueryException,
     SubscriptionUserNotFoundException,
 } from "../errors"
 import * as subscriptionService from "../services"
@@ -33,6 +34,7 @@ export const createSubscription = async (
                 break
             case error instanceof ActiveSubscriptionExistsException:
             case error instanceof CannotCreateSubscriptionException:
+            case error instanceof SubscriptionQueryException:
                 res.status(RESPONSES.BAD_REQUEST.status).json({
                     message: error.message,
                 })
