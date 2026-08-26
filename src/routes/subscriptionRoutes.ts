@@ -3,16 +3,9 @@ import {
     createSubscription,
     getAllSubscriptions,
     getSubscriptionById,
-    removeSubscription,
-    updateSubscription,
 } from "../controllers"
-import { PROFILES } from "../interfaces"
 import { authentication, validatorBody, validatorParams } from "../middlewares"
-import {
-    createSubscriptionSchema,
-    subscriptionIdSchema,
-    updateSubscriptionSchema,
-} from "../schemas"
+import { createSubscriptionSchema, subscriptionIdSchema } from "../schemas"
 
 /**
  * Todas las rutas de "subscription" están protegidas:
@@ -40,21 +33,4 @@ subscriptionRoutes.get(
     authentication(),
     validatorParams(subscriptionIdSchema),
     getSubscriptionById
-)
-
-// UPDATE – PATCH /subscription/:id (solo ADMIN)
-subscriptionRoutes.patch(
-    "/:id",
-    authentication([PROFILES.ADMIN]),
-    validatorParams(subscriptionIdSchema),
-    validatorBody(updateSubscriptionSchema),
-    updateSubscription
-)
-
-// DELETE – DELETE /subscription/:id (solo ADMIN)
-subscriptionRoutes.delete(
-    "/:id",
-    authentication([PROFILES.ADMIN]),
-    validatorParams(subscriptionIdSchema),
-    removeSubscription
 )

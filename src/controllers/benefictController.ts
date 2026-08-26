@@ -36,12 +36,20 @@ export const getAllBenefict = async (_req: Request, res: Response) => {
 /* CREATE - POST /benefict (solo ADMIN)                                     */
 /* -------------------------------------------------------------------------- */
 export const createBenefict = async (
-    req: Request<any, any, { name: string; description?: string }>,
+    req: Request<
+        any,
+        any,
+        { name: string; description?: string; membershipId: number }
+    >,
     res: Response
 ) => {
     try {
-        const { name, description } = req.body
-        const benefict = await createBenefictService(name, description)
+        const { name, description, membershipId } = req.body
+        const benefict = await createBenefictService(
+            name,
+            membershipId,
+            description
+        )
 
         res.status(RESPONSES.CREATED.status).json({
             message: RESPONSES.CREATED.message,
@@ -99,7 +107,7 @@ export const updateBenefict = async (
     req: Request<
         { id: string },
         any,
-        Partial<{ name: string; description: string }>
+        Partial<{ name: string; description: string; membershipId: number }>
     >,
     res: Response
 ) => {

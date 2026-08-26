@@ -33,7 +33,6 @@ export const createSubscription = async (data: {
     }
 
     // 3. Regla de negocio: Validar si el usuario ya tiene una suscripción activa
-    console.log("Entre")
     try {
         const activeSubscription = await Subscription.findOne({
             where: {
@@ -41,8 +40,6 @@ export const createSubscription = async (data: {
                 status: "ACTIVE",
             },
         })
-        console.log("activeSubscription")
-        console.log(activeSubscription)
         if (activeSubscription) {
             throw new ActiveSubscriptionExistsException()
         }

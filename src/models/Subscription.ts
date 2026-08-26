@@ -1,13 +1,13 @@
 import {
-    Model,
+    CreationOptional,
     DataTypes,
     InferAttributes,
     InferCreationAttributes,
-    CreationOptional,
+    Model,
 } from "sequelize"
 import { sequelize } from "../database"
-import User from "./User"
 import Membership from "./Membership"
+import User from "./User"
 
 class Subscription extends Model<
     InferAttributes<Subscription>,
@@ -32,7 +32,7 @@ Subscription.init(
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {
-                model: "Users",
+                model: User,
                 key: "id",
             },
         },
@@ -40,7 +40,7 @@ Subscription.init(
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {
-                model: "Memberships",
+                model: Membership,
                 key: "id",
             },
         },
@@ -77,6 +77,22 @@ User.belongsToMany(Membership, {
 
 Membership.belongsToMany(User, {
     through: Subscription,
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+    foreignKey: {
+        name: "membershipId",
+    },
+})
+
+Subscription.belongsTo(User, {
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+    foreignKey: {
+        name: "userId",
+    },
+})
+
+Subscription.belongsTo(Membership, {
     onDelete: "CASCADE",
     onUpdate: "CASCADE",
     foreignKey: {
