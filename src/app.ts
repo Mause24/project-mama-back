@@ -1,4 +1,4 @@
-import express, { Application, NextFunction, Request, Response } from "express"
+import express, { Application, Request, Response } from "express"
 import morgan from "morgan"
 import path from "node:path"
 import config from "./config"
@@ -29,7 +29,7 @@ app.use("/api/static", express.static(path.join(__dirname, "data")))
 app.use("/api", generalRoutes)
 
 // MIDDLEWARE DE MANEJO DE ERRORES GLOBAL (Nuevo)
-app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
+app.use((err: Error, _req: Request, res: Response) => {
     console.error(err.stack)
     res.status(500).json({
         success: false,

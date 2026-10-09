@@ -15,8 +15,8 @@
         }
     },
     "rules": {
-        "semi": ["warning", "never"],
-        "quotes": ["warning", "double"]
+        "semi": ["warn", "never"],
+        "quotes": ["warn", "double"]
     },
     "overrides": [
         {

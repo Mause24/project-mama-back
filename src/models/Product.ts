@@ -6,8 +6,7 @@ import {
     InferCreationAttributes,
     Model,
 } from "sequelize"
-import { sequelize } from "../database"
-import User from "./User"
+import { sequelize } from "../connection"
 
 class Product extends Model<
     InferAttributes<Product>,
@@ -20,7 +19,7 @@ class Product extends Model<
     declare buyPrice: number
     declare unit: string
     declare stock: number
-    declare userId: ForeignKey<User["id"]>
+    declare userId: ForeignKey<number>
 }
 
 Product.init(
@@ -60,16 +59,7 @@ Product.init(
         sequelize,
         paranoid: true,
         tableName: "products",
-    }
-)
-
-Product.belongsTo(User, {
-    foreignKey: {
-        name: "userId",
-        allowNull: false,
     },
-    onDelete: "CASCADE",
-    onUpdate: "CASCADE",
-})
+)
 
 export default Product

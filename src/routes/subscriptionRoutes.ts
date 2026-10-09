@@ -4,6 +4,7 @@ import {
     getAllSubscriptions,
     getSubscriptionById,
 } from "../controllers"
+import { PROFILES } from "../interfaces"
 import { authentication, validatorBody, validatorParams } from "../middlewares"
 import { createSubscriptionSchema, subscriptionIdSchema } from "../schemas"
 
@@ -24,7 +25,7 @@ subscriptionRoutes.post(
     "/",
     authentication([PROFILES.ADMIN]),
     validatorBody(createSubscriptionSchema),
-    createSubscription
+    createSubscription,
 )
 
 // READ (by id) – GET /subscription/:id (cualquier usuario autenticado)
@@ -32,5 +33,5 @@ subscriptionRoutes.get(
     "/:id",
     authentication(),
     validatorParams(subscriptionIdSchema),
-    getSubscriptionById
+    getSubscriptionById,
 )

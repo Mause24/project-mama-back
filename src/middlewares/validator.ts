@@ -7,7 +7,7 @@ export const validatorBody = (schema: Joi.Schema) => {
         // Verificar si el body está vacío
         if (!req.body || Object.keys(req.body).length === 0) {
             return res.status(RESPONSES.BAD_REQUEST.status).json({
-                message: "El body no puede estar vacío"
+                message: "El body no puede estar vacío",
             })
         }
 
@@ -27,7 +27,7 @@ export const validatorParams = (schema: Joi.Schema) => {
         // Verificar si los params están vacíos
         if (!req.params || Object.keys(req.params).length === 0) {
             return res.status(RESPONSES.BAD_REQUEST.status).json({
-                message: "Los params no pueden estar vacíos"
+                message: "Los params no pueden estar vacíos",
             })
         }
 

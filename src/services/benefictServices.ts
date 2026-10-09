@@ -16,7 +16,7 @@ import Benefict from "../models/Benefict"
 export const createBenefict = async (
     name: string,
     membershipId: number,
-    description?: string
+    description?: string,
 ): Promise<Benefict> => {
     // Validaciones de entrada
     validateName(name)
@@ -41,7 +41,7 @@ export const getBenefictById = async (id: number): Promise<Benefict> => {
  */
 export const updateBenefict = async (
     id: number,
-    fields: Partial<{ name?: string; description?: string }>
+    fields: Partial<{ name?: string; description?: string }>,
 ): Promise<Benefict> => {
     const benefict = await getBenefictById(id)
     const { name, description } = fields
@@ -62,7 +62,7 @@ export const updateBenefict = async (
         throw new CannotUpdateBenefictException(
             err instanceof Error
                 ? err.message
-                : "Error al actualizar el beneficio"
+                : "Error al actualizar el beneficio",
         )
     }
     return benefict
@@ -86,7 +86,7 @@ export const deleteBenefict = async (id: number): Promise<void> => {
         throw new CannotDeleteBenefictException(
             err instanceof Error
                 ? err.message
-                : "Error al eliminar el beneficio"
+                : "Error al eliminar el beneficio",
         )
     }
 }
@@ -101,7 +101,7 @@ function validateName(name: string): void {
     }
     if (name.length > 100) {
         throw new CannotCreateBenefictException(
-            "El nombre debe tener máximo 100 caracteres"
+            "El nombre debe tener máximo 100 caracteres",
         )
     }
 }

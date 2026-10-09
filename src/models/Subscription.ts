@@ -1,11 +1,12 @@
 import {
     CreationOptional,
     DataTypes,
+    ForeignKey,
     InferAttributes,
     InferCreationAttributes,
     Model,
 } from "sequelize"
-import { sequelize } from "../database"
+import { sequelize } from "../connection"
 import Membership from "./Membership"
 import User from "./User"
 
@@ -14,8 +15,8 @@ class Subscription extends Model<
     InferCreationAttributes<Subscription>
 > {
     declare id: CreationOptional<number>
-    declare userId: number
-    declare membershipId: number
+    declare userId: ForeignKey<number>
+    declare membershipId: ForeignKey<number>
     declare startDate: CreationOptional<Date>
     declare endDate: Date
     declare status: CreationOptional<"ACTIVE" | "INACTIVE" | "EXPIRED">
@@ -61,43 +62,9 @@ Subscription.init(
     },
     {
         sequelize,
+        tableName: "subscriptions",
         paranoid: true,
-    }
+    },
 )
-
-// Definición de relaciones
-User.belongsToMany(Membership, {
-    through: Subscription,
-    onDelete: "CASCADE",
-    onUpdate: "CASCADE",
-    foreignKey: {
-        name: "userId",
-    },
-})
-
-Membership.belongsToMany(User, {
-    through: Subscription,
-    onDelete: "CASCADE",
-    onUpdate: "CASCADE",
-    foreignKey: {
-        name: "membershipId",
-    },
-})
-
-Subscription.belongsTo(User, {
-    onDelete: "CASCADE",
-    onUpdate: "CASCADE",
-    foreignKey: {
-        name: "userId",
-    },
-})
-
-Subscription.belongsTo(Membership, {
-    onDelete: "CASCADE",
-    onUpdate: "CASCADE",
-    foreignKey: {
-        name: "membershipId",
-    },
-})
 
 export default Subscription

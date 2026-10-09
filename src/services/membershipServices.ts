@@ -14,7 +14,7 @@ import Membership from "../models/Membership"
  */
 export const createMembership = async (
     name: string,
-    price: number
+    price: number,
 ): Promise<Membership> => {
     // Validaciones de entrada
     validateName(name)
@@ -40,7 +40,7 @@ export const getMembershipById = async (id: number): Promise<Membership> => {
  */
 export const updateMembership = async (
     id: number,
-    fields: Partial<{ name?: string; price?: number }>
+    fields: Partial<{ name?: string; price?: number }>,
 ): Promise<Membership> => {
     const membership = await getMembershipById(id)
     const { name, price } = fields
@@ -60,7 +60,7 @@ export const updateMembership = async (
         throw new CannotUpdateMembershipException(
             err instanceof Error
                 ? err.message
-                : "Error al actualizar la membresía"
+                : "Error al actualizar la membresía",
         )
     }
     return membership
@@ -81,7 +81,7 @@ export const deleteMembership = async (id: number): Promise<void> => {
         throw new CannotDeleteMembershipException(
             err instanceof Error
                 ? err.message
-                : "Error al eliminar la membresía"
+                : "Error al eliminar la membresía",
         )
     }
 }
@@ -95,7 +95,7 @@ function validateName(name: string): void {
     }
     if (name.length > 100) {
         throw new CannotCreateMembershipException(
-            "El nombre debe tener máximo 100 caracteres"
+            "El nombre debe tener máximo 100 caracteres",
         )
     }
 }
@@ -106,12 +106,12 @@ function validateName(name: string): void {
 function validatePrice(price: number): void {
     if (typeof price !== "number") {
         throw new CannotCreateMembershipException(
-            "El precio debe ser un número válido"
+            "El precio debe ser un número válido",
         )
     }
     if (price < 0) {
         throw new CannotCreateMembershipException(
-            "El precio no puede ser negativo"
+            "El precio no puede ser negativo",
         )
     }
 }

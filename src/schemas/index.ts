@@ -1,5 +1,7 @@
-export * from "./Benefict"
-export * from "./Membership"
-export * from "./Product"
-export * from "./User"
-export * from "./Subscription"
+export * from "./benefictSchemas"
+export * from "./membershipSchemas"
+export * from "./parameterSchemas"
+export * from "./productSchemas"
+export * from "./subscriptionSchemas"
+export * from "./userSchemas"
+

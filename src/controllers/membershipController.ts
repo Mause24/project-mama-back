@@ -36,8 +36,8 @@ export const getAllMembership = async (_req: Request, res: Response) => {
 /*   CREATE - POST /membership (solo ADMIN)                                   */
 /* -------------------------------------------------------------------------- */
 export const createMembership = async (
-    req: Request<any, any, { name: string; price: number }>,
-    res: Response
+    req: Request<unknown, unknown, { name: string; price: number }>,
+    res: Response,
 ) => {
     try {
         const { name, price } = req.body
@@ -67,7 +67,7 @@ export const createMembership = async (
 /* -------------------------------------------------------------------------- */
 export const getMembershipById = async (
     req: Request<{ id: string }>,
-    res: Response
+    res: Response,
 ) => {
     try {
         const id = Number(req.params.id)
@@ -96,8 +96,12 @@ export const getMembershipById = async (
 /*   UPDATE - PATCH /membership/:id (solo ADMIN)                               */
 /* -------------------------------------------------------------------------- */
 export const updateMembership = async (
-    req: Request<{ id: string }, any, Partial<{ name: string; price: number }>>,
-    res: Response
+    req: Request<
+        { id: string },
+        unknown,
+        Partial<{ name: string; price: number }>
+    >,
+    res: Response,
 ) => {
     try {
         const id = Number(req.params.id)
@@ -140,7 +144,7 @@ export const updateMembership = async (
 /* -------------------------------------------------------------------------- */
 export const removeMembership = async (
     req: Request<{ id: string }>,
-    res: Response
+    res: Response,
 ) => {
     try {
         const id = Number(req.params.id)
@@ -170,4 +174,3 @@ export const removeMembership = async (
         })
     }
 }
-

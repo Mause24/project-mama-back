@@ -14,7 +14,7 @@ import User from "../models/User"
 import { filesPaths } from "../utils"
 
 export const registerService = async (
-    body: Omit<UserModelInterface, "profileId">
+    body: Omit<UserModelInterface, "profileId">,
 ) => {
     const encryptPassword = await bcrypt.hash(body.password, config.HASH)
     const userEmail = await User.findOne({
@@ -47,7 +47,7 @@ export const registerService = async (
 }
 
 export const loginService = async (
-    body: Pick<UserModelInterface, "email" | "password">
+    body: Pick<UserModelInterface, "email" | "password">,
 ) => {
     const user = await User.findOne({
         where: { email: body.email },
@@ -79,7 +79,7 @@ export const loginService = async (
             password: user.toJSON().password,
             profileId: user.toJSON().profileId,
         } as JWTInterface,
-        config.KEY
+        config.KEY,
     )
 
     return {
@@ -90,7 +90,7 @@ export const loginService = async (
 
 export const updateImageUserService = async (
     file?: Express.Multer.File,
-    tokenId?: number
+    tokenId?: number,
 ) => {
     if (!file || !tokenId) {
         throw new MissingAttributeException()
@@ -110,7 +110,7 @@ export const updateImageUserService = async (
                 id: tokenId,
             },
             returning: true,
-        }
+        },
     )
 
     if (rows <= 0) {

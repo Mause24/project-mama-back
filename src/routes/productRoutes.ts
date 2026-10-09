@@ -5,7 +5,7 @@ import {
     getProductById,
     removeProduct,
     updateProduct,
-} from "../controllers"; // Utiliza tu barril de controladores igual que en membership
+} from "../controllers" // Utiliza tu barril de controladores igual que en membership
 import { authentication, validatorBody, validatorParams } from "../middlewares"
 import {
     createProductSchema,
@@ -28,7 +28,7 @@ productRoutes.post(
     "/",
     authentication(),
     validatorBody(createProductSchema),
-    createProduct
+    createProduct,
 )
 
 // READ (by id) – GET /products/:id (Cualquier usuario autenticado)
@@ -36,7 +36,7 @@ productRoutes.get(
     "/:id",
     authentication(),
     validatorParams(productIdSchema),
-    getProductById
+    getProductById,
 )
 
 // UPDATE – PATCH /products/:id (Cualquier usuario autenticado)
@@ -45,7 +45,7 @@ productRoutes.patch(
     authentication(),
     validatorParams(productIdSchema),
     validatorBody(updateProductSchema),
-    updateProduct
+    updateProduct,
 )
 
 // DELETE – DELETE /products/:id (Cualquier usuario autenticado o restringido a ADMIN según regla de negocio)
@@ -53,5 +53,5 @@ productRoutes.delete(
     "/:id",
     authentication(), // Si deseas que solo el ADMIN borre, cambia por: authentication([PROFILES.ADMIN])
     validatorParams(productIdSchema),
-    removeProduct
+    removeProduct,
 )

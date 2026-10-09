@@ -12,11 +12,11 @@ import { RESPONSES } from "../utils"
 
 export const createSubscription = async (
     req: Request,
-    res: Response
+    res: Response,
 ): Promise<void> => {
     try {
         const newSubscription = await subscriptionService.createSubscription(
-            req.body
+            req.body,
         )
         res.status(RESPONSES.CREATED.status).json({
             message: RESPONSES.CREATED.message,
@@ -48,7 +48,7 @@ export const createSubscription = async (
 
 export const getAllSubscriptions = async (
     _req: Request,
-    res: Response
+    res: Response,
 ): Promise<void> => {
     try {
         const subscriptions = await subscriptionService.getAllSubscriptions()
@@ -65,7 +65,7 @@ export const getAllSubscriptions = async (
 
 export const getSubscriptionById = async (
     req: Request,
-    res: Response
+    res: Response,
 ): Promise<void> => {
     try {
         const id = parseInt(req.params.id, 10)

@@ -1,25 +1,28 @@
 import {
     CreationOptional,
     DataTypes,
+    ForeignKey,
     InferAttributes,
     InferCreationAttributes,
     Model,
 } from "sequelize"
 import { sequelize } from "../connection"
 
-class Membership extends Model<
-    InferAttributes<Membership>,
-    InferCreationAttributes<Membership>
+class Parameter extends Model<
+    InferAttributes<Parameter>,
+    InferCreationAttributes<Parameter>
 > {
     declare id: CreationOptional<number>
     declare name: string
-    declare price: string
+    declare configuration: CreationOptional<object | null>
+    declare typeId: ForeignKey<number>
+    declare inventoryId: ForeignKey<number>
 }
 
-Membership.init(
+Parameter.init(
     {
         id: {
-            type: DataTypes.BIGINT,
+            type: DataTypes.INTEGER.UNSIGNED,
             autoIncrement: true,
             primaryKey: true,
         },
@@ -27,16 +30,17 @@ Membership.init(
             type: DataTypes.STRING(100),
             allowNull: false,
         },
-        price: {
-            type: DataTypes.DECIMAL(10, 2),
-            allowNull: false,
+        configuration: {
+            type: DataTypes.JSON,
+            allowNull: true,
         },
     },
     {
         sequelize,
-        tableName: "memberships",
+        timestamps: false,
+        tableName: "parameters",
         paranoid: true,
     },
 )
 
-export default Membership
+export default Parameter

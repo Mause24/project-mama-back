@@ -24,7 +24,7 @@ benefictRoutes.post(
     "/",
     authentication([PROFILES.ADMIN]),
     validatorBody(createBenefictSchema),
-    createBenefict
+    createBenefict,
 )
 
 // READ (by id) – GET /benefict/:id (cualquier usuario autenticado)
@@ -32,7 +32,7 @@ benefictRoutes.get(
     "/:id",
     authentication(),
     validatorParams(benefictIdSchema),
-    getBenefictById
+    getBenefictById,
 )
 
 // UPDATE – PATCH /benefict/:id (solo ADMIN)
@@ -41,7 +41,7 @@ benefictRoutes.patch(
     authentication([PROFILES.ADMIN]),
     validatorParams(benefictIdSchema),
     validatorBody(updateBenefictSchema),
-    updateBenefict
+    updateBenefict,
 )
 
 // DELETE – DELETE /benefict/:id (solo ADMIN)
@@ -49,5 +49,5 @@ benefictRoutes.delete(
     "/:id",
     authentication([PROFILES.ADMIN]),
     validatorParams(benefictIdSchema),
-    removeBenefict
+    removeBenefict,
 )

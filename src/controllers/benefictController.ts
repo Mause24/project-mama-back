@@ -37,18 +37,18 @@ export const getAllBenefict = async (_req: Request, res: Response) => {
 /* -------------------------------------------------------------------------- */
 export const createBenefict = async (
     req: Request<
-        any,
-        any,
+        unknown,
+        unknown,
         { name: string; description?: string; membershipId: number }
     >,
-    res: Response
+    res: Response,
 ) => {
     try {
         const { name, description, membershipId } = req.body
         const benefict = await createBenefictService(
             name,
             membershipId,
-            description
+            description,
         )
 
         res.status(RESPONSES.CREATED.status).json({
@@ -75,7 +75,7 @@ export const createBenefict = async (
 /* -------------------------------------------------------------------------- */
 export const getBenefictById = async (
     req: Request<{ id: string }>,
-    res: Response
+    res: Response,
 ) => {
     try {
         const id = Number(req.params.id)
@@ -106,10 +106,10 @@ export const getBenefictById = async (
 export const updateBenefict = async (
     req: Request<
         { id: string },
-        any,
+        unknown,
         Partial<{ name: string; description: string; membershipId: number }>
     >,
-    res: Response
+    res: Response,
 ) => {
     try {
         const id = Number(req.params.id)
@@ -151,7 +151,7 @@ export const updateBenefict = async (
 /* -------------------------------------------------------------------------- */
 export const removeBenefict = async (
     req: Request<{ id: string }>,
-    res: Response
+    res: Response,
 ) => {
     try {
         const id = Number(req.params.id)

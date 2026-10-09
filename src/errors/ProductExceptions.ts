@@ -2,16 +2,25 @@ import { GeneralException } from "./GeneralExceptions"
 
 export class ProductNotFoundException extends GeneralException {
     constructor(
-        message: string = "El producto solicitado no existe o fue eliminado."
+        message: string = "El producto solicitado no existe o fue eliminado.",
     ) {
         super(message)
         this.name = "ProductNotFoundException"
     }
 }
 
+export class TypeNotFoundException extends GeneralException {
+    constructor(
+        message: string = "El tipo solicitado no existe o fue eliminado.",
+    ) {
+        super(message)
+        this.name = "TypeNotFoundException"
+    }
+}
+
 export class ProductCreationException extends GeneralException {
     constructor(
-        message: string = "Error al crear el producto. Verifique los datos e intente nuevamente."
+        message: string = "Error al crear el producto. Verifique los datos e intente nuevamente.",
     ) {
         super(message)
         this.name = "ProductCreationException"
@@ -20,7 +29,7 @@ export class ProductCreationException extends GeneralException {
 
 export class ProductUpdateException extends GeneralException {
     constructor(
-        message: string = "Error al actualizar el producto. Verifique los datos e intente nuevamente."
+        message: string = "Error al actualizar el producto. Verifique los datos e intente nuevamente.",
     ) {
         super(message)
         this.name = "ProductUpdateException"
@@ -29,7 +38,7 @@ export class ProductUpdateException extends GeneralException {
 
 export class ProductDeletionException extends GeneralException {
     constructor(
-        message: string = "Error al eliminar el producto. Intente nuevamente."
+        message: string = "Error al eliminar el producto. Intente nuevamente.",
     ) {
         super(message)
         this.name = "ProductDeletionException"
@@ -38,7 +47,7 @@ export class ProductDeletionException extends GeneralException {
 
 export class ProductStockException extends GeneralException {
     constructor(
-        message: string = "Stock insuficiente para realizar la operación."
+        message: string = "Stock insuficiente para realizar la operación.",
     ) {
         super(message)
         this.name = "ProductStockException"

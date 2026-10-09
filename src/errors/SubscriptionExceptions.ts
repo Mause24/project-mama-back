@@ -30,7 +30,7 @@ export class CannotDeleteSubscriptionException extends GeneralException {
 
 export class SubscriptionUserNotFoundException extends GeneralException {
     constructor(
-        message = "El usuario proporcionado para la suscripción no existe"
+        message = "El usuario proporcionado para la suscripción no existe",
     ) {
         super(message)
         this.name = "SubscriptionUserNotFoundException"
@@ -39,7 +39,7 @@ export class SubscriptionUserNotFoundException extends GeneralException {
 
 export class SubscriptionMembershipNotFoundException extends GeneralException {
     constructor(
-        message = "La membresía proporcionada para la suscripción no existe"
+        message = "La membresía proporcionada para la suscripción no existe",
     ) {
         super(message)
         this.name = "SubscriptionMembershipNotFoundException"
@@ -48,7 +48,7 @@ export class SubscriptionMembershipNotFoundException extends GeneralException {
 
 export class ActiveSubscriptionExistsException extends GeneralException {
     constructor(
-        message = "El usuario ya tiene una suscripción ACTIVA vigente"
+        message = "El usuario ya tiene una suscripción ACTIVA vigente",
     ) {
         super(message)
         this.name = "ActiveSubscriptionExistsException"
