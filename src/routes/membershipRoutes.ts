@@ -32,7 +32,7 @@ membershipRoutes.post(
     "/",
     authentication([PROFILES.ADMIN]),
     validatorBody(createMembershipSchema),
-    createMembership
+    createMembership,
 )
 
 // READ (by id) – GET /membership/:id (solo ADMIN)
@@ -40,7 +40,7 @@ membershipRoutes.get(
     "/:id",
     authentication(),
     validatorParams(membershipIdSchema),
-    getMembershipById
+    getMembershipById,
 )
 
 // UPDATE – PATCH /membership/:id (solo ADMIN)
@@ -49,7 +49,7 @@ membershipRoutes.patch(
     authentication([PROFILES.ADMIN]),
     validatorParams(membershipIdSchema),
     validatorBody(updateMembershipSchema),
-    updateMembership
+    updateMembership,
 )
 
 // DELETE – DELETE /membership/:id (solo ADMIN)
@@ -57,5 +57,5 @@ membershipRoutes.delete(
     "/:id",
     authentication([PROFILES.ADMIN]),
     validatorParams(membershipIdSchema),
-    removeMembership
+    removeMembership,
 )

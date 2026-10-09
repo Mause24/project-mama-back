@@ -1,11 +1,14 @@
 import {
-    ProductNotFoundException,
     ProductCreationException,
-    ProductUpdateException,
     ProductDeletionException,
+    ProductNotFoundException,
     ProductStockException,
+    ProductUpdateException,
     UserNotFoundException,
 } from "../errors"
+import Parameter from "../models/Parameter"
+import ParameterOption from "../models/ParameterOption"
+import ParameterType from "../models/ParameterType"
 import Product from "../models/Product"
 import User from "../models/User"
 
@@ -32,7 +35,7 @@ interface UpdateProductInput {
  * Crea un nuevo producto validando preventivamente al usuario y consistencia de stock.
  */
 export const createProduct = async (
-    data: CreateProductInput
+    data: CreateProductInput,
 ): Promise<Product> => {
     // Validación preventiva (Short-Circuit)
     const userExists = await User.findByPk(data.userId)
@@ -42,16 +45,34 @@ export const createProduct = async (
 
     if (data.stock < 0) {
         throw new ProductStockException(
-            "No se puede registrar un producto con inventario inicial negativo."
+            "No se puede registrar un producto con inventario inicial negativo.",
         )
     }
 
     // El try/catch solo envuelve la persistencia pura en la base de datos
     try {
-        return await Product.create(data)
+        const createdProduct = await Product.create(data)
+        return await createdProduct.reload({
+            include: [
+                {
+                    model: Parameter,
+                    attributes: ["id", "name", "value"],
+                    include: [
+                        {
+                            model: ParameterType,
+                            attributes: ["name"],
+                        },
+                        {
+                            model: ParameterOption,
+                            attributes: ["id", "label", "value"],
+                        },
+                    ],
+                },
+            ],
+        })
     } catch (err) {
         throw new ProductCreationException(
-            err instanceof Error ? err.message : "Error al crear el producto"
+            err instanceof Error ? err.message : "Error al crear el producto",
         )
     }
 }
@@ -62,7 +83,21 @@ export const createProduct = async (
 export const getAllProducts = async (): Promise<Product[]> => {
     return await Product.findAll({
         include: [
-            { model: User, as: "user", attributes: ["id", "name", "email"] },
+            { model: User, attributes: ["id", "name", "email"] },
+            {
+                model: Parameter,
+                attributes: ["id", "name", "value"],
+                include: [
+                    {
+                        model: ParameterType,
+                        attributes: ["id", "name"],
+                    },
+                    {
+                        model: ParameterOption,
+                        attributes: ["id", "label", "value"],
+                    },
+                ],
+            },
         ],
     })
 }
@@ -72,9 +107,7 @@ export const getAllProducts = async (): Promise<Product[]> => {
  */
 export const getProductById = async (id: number): Promise<Product> => {
     const product = await Product.findByPk(id, {
-        include: [
-            { model: User, as: "user", attributes: ["id", "name", "email"] },
-        ],
+        include: [{ model: User, attributes: ["id", "name", "email"] }],
     })
     if (!product) {
         throw new ProductNotFoundException()
@@ -87,14 +120,14 @@ export const getProductById = async (id: number): Promise<Product> => {
  */
 export const updateProduct = async (
     id: number,
-    data: UpdateProductInput
+    data: UpdateProductInput,
 ): Promise<Product> => {
     // Si no existe, getProductById lanza automáticamente ProductNotFoundException hacia el controller
     const product = await getProductById(id)
 
     if (data.stock !== undefined && data.stock < 0) {
         throw new ProductStockException(
-            "El inventario restante no puede ser un número negativo."
+            "El inventario restante no puede ser un número negativo.",
         )
     }
 
@@ -106,7 +139,7 @@ export const updateProduct = async (
         throw new ProductUpdateException(
             err instanceof Error
                 ? err.message
-                : "Error al actualizar el producto"
+                : "Error al actualizar el producto",
         )
     }
 }
@@ -122,7 +155,9 @@ export const removeProduct = async (id: number): Promise<void> => {
         await product.destroy()
     } catch (err) {
         throw new ProductDeletionException(
-            err instanceof Error ? err.message : "Error al eliminar el producto"
+            err instanceof Error
+                ? err.message
+                : "Error al eliminar el producto",
         )
     }
 }

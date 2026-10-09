@@ -15,8 +15,12 @@ import {
 import { RESPONSES } from "../utils"
 
 export const login = async (
-    req: Request<any, any, Pick<UserModelInterface, "email" | "password">>,
-    res: Response
+    req: Request<
+        unknown,
+        unknown,
+        Pick<UserModelInterface, "email" | "password">
+    >,
+    res: Response,
 ) => {
     try {
         const { user, token } = await loginService(req.body)
@@ -49,11 +53,11 @@ export const login = async (
 
 export const register = async (
     req: Request<
-        any,
-        any,
+        unknown,
+        unknown,
         Omit<UserModelInterface, "profileId" | "avatarImage">
     >,
-    res: Response
+    res: Response,
 ) => {
     try {
         const user = await registerService(req.body)
@@ -83,8 +87,8 @@ export const register = async (
 }
 
 export const updateImageUser = async (
-    req: Request<any, any, any>,
-    res: Response
+    req: Request<unknown, unknown, unknown>,
+    res: Response,
 ) => {
     try {
         // Safely parse JWT query parameter; handle malformed JSON gracefully

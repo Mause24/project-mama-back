@@ -47,7 +47,7 @@ export const createSubscription = async (data: {
         throw new SubscriptionQueryException(
             error instanceof Error
                 ? error.message
-                : "Error al consultar la suscripción"
+                : "Error al consultar la suscripción",
         )
     }
 
@@ -58,7 +58,7 @@ export const createSubscription = async (data: {
         throw new CannotCreateSubscriptionException(
             error instanceof Error
                 ? error.message
-                : "Error interno al registrar la suscripción en la base de datos"
+                : "Error interno al registrar la suscripción en la base de datos",
         )
     }
 }
@@ -67,7 +67,7 @@ export const getAllSubscriptions = async () => {
     // Retornamos las suscripciones incluyendo los datos básicos del usuario y membresía para que sea un GET útil
     return await Subscription.findAll({
         include: [
-            { model: User, as: "user", attributes: ["id", "name", "email"] },
+            { model: User, attributes: ["id", "name", "email"] },
             { model: Membership, as: "membership", attributes: ["id", "name"] },
         ],
     })
@@ -76,7 +76,7 @@ export const getAllSubscriptions = async () => {
 export const getSubscriptionById = async (id: number) => {
     const subscription = await Subscription.findByPk(id, {
         include: [
-            { model: User, as: "user", attributes: ["id", "name", "email"] },
+            { model: User, attributes: ["id", "name", "email"] },
             { model: Membership, as: "membership", attributes: ["id", "name"] },
         ],
     })
@@ -93,7 +93,7 @@ export const updateSubscription = async (
         membershipId?: number
         endDate?: Date
         status?: "ACTIVE" | "INACTIVE" | "EXPIRED"
-    }
+    },
 ) => {
     const subscription = await Subscription.findByPk(id)
     if (!subscription) {
@@ -114,7 +114,7 @@ export const updateSubscription = async (
         throw new CannotUpdateSubscriptionException(
             error instanceof Error
                 ? error.message
-                : "Error interno al actualizar los datos en la base de datos"
+                : "Error interno al actualizar los datos en la base de datos",
         )
     }
 }
@@ -132,7 +132,7 @@ export const deleteSubscription = async (id: number) => {
         throw new CannotDeleteSubscriptionException(
             error instanceof Error
                 ? error.message
-                : "Error interno al intentar remover la suscripción"
+                : "Error interno al intentar remover la suscripción",
         )
     }
 }
