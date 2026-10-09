@@ -1,6 +1,6 @@
 export * from "./benefictController"
 export * from "./membershipController"
+export * from "./parameterController"
 export * from "./productController"
 export * from "./subscriptionController"
 export * from "./userController"
-
