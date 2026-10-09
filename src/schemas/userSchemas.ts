@@ -1,7 +1,6 @@
 import Joi from "joi"
 
-export const passwordRegex =
-    /(?=.*[A-Z].*)(?=.*[0-9].*)(?=.*[\*\-\,\.\/\_\=\+\{\[\}\]].*)/
+export const passwordRegex = /(?=.*[A-Z])(?=.*[0-9])(?=.*[*.,/_=+{}[\]-])/
 
 export const registerSchema = Joi.object({
     email: Joi.string()
