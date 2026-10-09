@@ -6,8 +6,7 @@ import {
     InferCreationAttributes,
     Model,
 } from "sequelize"
-import { sequelize } from "../database"
-import Profile from "./Profile"
+import { sequelize } from "../connection"
 
 class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
     declare id: CreationOptional<number>
@@ -18,7 +17,7 @@ class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
     declare phone: string
     declare companyName: string
     declare avatarImage: CreationOptional<string>
-    declare profileId: ForeignKey<Profile["id"]>
+    declare profileId: ForeignKey<number>
 }
 
 User.init(
@@ -59,17 +58,9 @@ User.init(
     },
     {
         sequelize: sequelize,
+        tableName: "users",
         paranoid: true,
-    }
-)
-
-User.belongsTo(Profile, {
-    onDelete: "CASCADE",
-    onUpdate: "CASCADE",
-    foreignKey: {
-        name: "profileId",
-        allowNull: false,
     },
-})
+)
 
 export default User

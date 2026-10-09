@@ -5,18 +5,18 @@ import {
     InferCreationAttributes,
     Model,
 } from "sequelize"
-
 import { sequelize } from "../connection"
 
-class Profile extends Model<
-    InferAttributes<Profile>,
-    InferCreationAttributes<Profile>
+class Membership extends Model<
+    InferAttributes<Membership>,
+    InferCreationAttributes<Membership>
 > {
     declare id: CreationOptional<number>
     declare name: string
+    declare price: string
 }
 
-Profile.init(
+Membership.init(
     {
         id: {
             type: DataTypes.BIGINT,
@@ -24,15 +24,19 @@ Profile.init(
             primaryKey: true,
         },
         name: {
-            type: DataTypes.STRING(45),
+            type: DataTypes.STRING(100),
+            allowNull: false,
+        },
+        price: {
+            type: DataTypes.DECIMAL(10, 2),
             allowNull: false,
         },
     },
     {
-        sequelize: sequelize,
-        tableName: "profiles",
+        sequelize,
+        tableName: "memberships",
         paranoid: true,
     },
 )
 
-export default Profile
+export default Membership

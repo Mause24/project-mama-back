@@ -1,22 +1,24 @@
 import {
     CreationOptional,
     DataTypes,
+    ForeignKey,
     InferAttributes,
     InferCreationAttributes,
     Model,
 } from "sequelize"
-
 import { sequelize } from "../connection"
 
-class Profile extends Model<
-    InferAttributes<Profile>,
-    InferCreationAttributes<Profile>
+class Inventory extends Model<
+    InferAttributes<Inventory>,
+    InferCreationAttributes<Inventory>
 > {
     declare id: CreationOptional<number>
     declare name: string
+    declare description: string
+    declare userId: ForeignKey<number>
 }
 
-Profile.init(
+Inventory.init(
     {
         id: {
             type: DataTypes.BIGINT,
@@ -24,15 +26,19 @@ Profile.init(
             primaryKey: true,
         },
         name: {
-            type: DataTypes.STRING(45),
+            type: DataTypes.STRING(100),
+            allowNull: false,
+        },
+        description: {
+            type: DataTypes.STRING(100),
             allowNull: false,
         },
     },
     {
-        sequelize: sequelize,
-        tableName: "profiles",
+        sequelize,
+        tableName: "inventories",
         paranoid: true,
     },
 )
 
-export default Profile
+export default Inventory

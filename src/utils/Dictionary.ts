@@ -1,4 +1,14 @@
 export const RESPONSES = {
+    // Added missing standard HTTP response codes
+    BAD_REQUEST: {
+        message: "BAD_REQUEST",
+        status: 400,
+    },
+    NOT_FOUND: {
+        message: "NOT_FOUND",
+        status: 404,
+    },
+
     // GENERAL
     OK: {
         message: "OK",
@@ -22,6 +32,10 @@ export const RESPONSES = {
     },
     CANNOT_UPDATE: {
         message: "CANNOT_UPDATE",
+        status: 500,
+    },
+    CANNOT_DELETE: {
+        message: "CANNOT_DELETE",
         status: 500,
     },
     INVALID_TOKEN: {

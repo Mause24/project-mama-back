@@ -8,5 +8,5 @@ userRoutes.patch(
     "/image",
     authentication(),
     upload().single("image"),
-    updateImageUser
+    updateImageUser,
 )

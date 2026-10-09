@@ -44,6 +44,7 @@ export const authentication =
                 })
                 return
             }
+
             req.query["jwt"] = JSON.stringify(jwtDecoded)
             next()
         } catch (error) {
@@ -69,4 +70,6 @@ export const parseTokenToObject = (token: string): JWTInterface | undefined => {
     if (result) {
         return jwtDecoded as JWTInterface
     }
+
+    return undefined
 }

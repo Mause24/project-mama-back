@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Request } from "express"
 import multer, { FileFilterCallback } from "multer"
 import fs from "node:fs"
@@ -8,7 +9,7 @@ import User from "../models/User"
 const useStorageFiles = async (
     req: Request,
     file: Express.Multer.File,
-    _cb: (error: Error | null, destination: string) => void
+    _cb: (error: Error | null, destination: string) => void,
 ) => {
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9)
     const basePath = path.join(__dirname, "../data/")
@@ -35,13 +36,13 @@ const useStorageFiles = async (
                 const user = await User.findByPk(parsedUser.id)
                 if (user && typeof user.toJSON().avatarImage === "string") {
                     const imageTitle = String(
-                        user.toJSON().avatarImage.split("/").pop()
+                        user.toJSON().avatarImage.split("/").pop(),
                     )
                     if (fs.existsSync(path.join(dataDirectory, imageTitle))) {
                         fs.unlink(path.join(dataDirectory, imageTitle), err => {
                             if (err) {
                                 throw new Error(
-                                    "Failing on delete the old avatar"
+                                    "Failing on delete the old avatar",
                                 )
                             }
                         })
