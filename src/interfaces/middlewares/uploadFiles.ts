@@ -5,6 +5,6 @@ export interface UpLoadFilesOptions {
     filter?: (
         req: Request,
         file: Express.Multer.File,
-        cb: FileFilterCallback
+        cb: FileFilterCallback,
     ) => boolean
 }
