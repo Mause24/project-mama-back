@@ -1,4 +1,5 @@
 export * from "./benefictServices"
+export * from "./entryTypeServices"
 export * from "./membershipServices"
 export * from "./parameterServices"
 export * from "./productServices"
