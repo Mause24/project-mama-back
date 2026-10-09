@@ -7,5 +7,5 @@
     "semi": false,
     "endOfLine": "crlf",
     "singleQuote": false,
-    "trailingComma": "es5"
+    "trailingComma": "all"
 }
