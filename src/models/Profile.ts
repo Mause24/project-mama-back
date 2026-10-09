@@ -6,8 +6,7 @@ import {
     Model,
 } from "sequelize"
 
-import { sequelize } from "../database"
-import { PROFILES } from "../interfaces"
+import { sequelize } from "../connection"
 
 class Profile extends Model<
     InferAttributes<Profile>,
@@ -31,28 +30,9 @@ Profile.init(
     },
     {
         sequelize: sequelize,
+        tableName: "profiles",
         paranoid: true,
-    }
+    },
 )
-
-sequelize
-    .sync()
-    .then(() => {
-        Object.entries(PROFILES).forEach(async element => {
-            if (typeof element[1] === "number") {
-                await Profile.findOrCreate({
-                    where: { id: element[1], name: element[0] },
-                })
-            }
-        })
-
-        return true
-    })
-    .then(() => {
-        console.log("PROFILES LOADED SUCCESSFULLY.")
-    })
-    .catch(err => {
-        console.error("ERROR SYNCHRONIZING THE DATABASE:", err)
-    })
 
 export default Profile

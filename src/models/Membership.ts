@@ -5,7 +5,7 @@ import {
     InferCreationAttributes,
     Model,
 } from "sequelize"
-import { sequelize } from "../database"
+import { sequelize } from "../connection"
 
 class Membership extends Model<
     InferAttributes<Membership>,
@@ -34,8 +34,9 @@ Membership.init(
     },
     {
         sequelize,
+        tableName: "memberships",
         paranoid: true,
-    }
+    },
 )
 
 export default Membership

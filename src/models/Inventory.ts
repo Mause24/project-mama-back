@@ -8,17 +8,17 @@ import {
 } from "sequelize"
 import { sequelize } from "../connection"
 
-class Benefict extends Model<
-    InferAttributes<Benefict>,
-    InferCreationAttributes<Benefict>
+class Inventory extends Model<
+    InferAttributes<Inventory>,
+    InferCreationAttributes<Inventory>
 > {
     declare id: CreationOptional<number>
     declare name: string
-    declare description: CreationOptional<string>
-    declare membershipId: ForeignKey<number>
+    declare description: string
+    declare userId: ForeignKey<number>
 }
 
-Benefict.init(
+Inventory.init(
     {
         id: {
             type: DataTypes.BIGINT,
@@ -30,15 +30,15 @@ Benefict.init(
             allowNull: false,
         },
         description: {
-            type: DataTypes.TEXT,
-            allowNull: true, // Lo dejamos null para mayor flexibilidad
+            type: DataTypes.STRING(100),
+            allowNull: false,
         },
     },
     {
         sequelize,
-        paranoid: true, // Mantenemos el soft delete como en Membership
-        tableName: "beneficts", // Forzamos el nombre plural exacto
+        tableName: "inventories",
+        paranoid: true,
     },
 )
 
-export default Benefict
+export default Inventory
