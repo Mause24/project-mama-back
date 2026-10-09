@@ -1,6 +1,5 @@
 /* import AccountingEntry from "./AccountingEntry" */
 import Benefict from "./Benefict"
-/* import EntryType from "./EntryType" */
 import Inventory from "./Inventory"
 import Membership from "./Membership"
 import Parameter from "./Parameter"

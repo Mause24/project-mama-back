@@ -1,4 +1,5 @@
 export * from "./BenefictsExceptions"
+export * from "./EntryTypeExceptions"
 export * from "./GeneralExceptions"
 export * from "./MembershipExceptions"
 export * from "./ParameterExceptions"

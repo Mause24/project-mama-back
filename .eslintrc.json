@@ -1,6 +1,6 @@
 {
     "root": true,
-    "ignorePatterns": ["*.js"],
+    "ignorePatterns": ["*.js", "dist", "node_modules"],
     "plugins": ["@typescript-eslint", "prettier"],
     "extends": [
         "eslint:recommended",
@@ -14,10 +14,7 @@
             }
         }
     },
-    "rules": {
-        "semi": ["warn", "never"],
-        "quotes": ["warn", "double"]
-    },
+    "rules": {},
     "overrides": [
         {
             "files": ["*.ts", "*.tsx"],

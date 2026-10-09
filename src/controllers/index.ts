@@ -1,4 +1,5 @@
 export * from "./benefictController"
+export * from "./entryTypeControllers"
 export * from "./membershipController"
 export * from "./parameterController"
 export * from "./productController"

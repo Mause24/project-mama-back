@@ -1,7 +1,7 @@
 // src/models/index.ts
 /* import "./AccountingEntry" */
 import "./Benefict"
-/* import "./EntryType" */
+import "./EntryType"
 import "./Inventory"
 import "./Membership"
 import "./Parameter"
