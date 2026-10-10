@@ -1,3 +1,4 @@
+export * from "./AccountingEntryExceptions"
 export * from "./BenefictsExceptions"
 export * from "./EntryTypeExceptions"
 export * from "./GeneralExceptions"
@@ -6,3 +7,4 @@ export * from "./ParameterExceptions"
 export * from "./ProductExceptions"
 export * from "./SubscriptionExceptions"
 export * from "./UserExceptions"
+

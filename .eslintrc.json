@@ -14,7 +14,14 @@
             }
         }
     },
-    "rules": {},
+    "rules": {
+        "prettier/prettier": [
+            "error",
+            {
+                "endOfLine": "crlf"
+            }
+        ]
+    },
     "overrides": [
         {
             "files": ["*.ts", "*.tsx"],
@@ -22,6 +29,12 @@
                 "@typescript-eslint/no-shadow": "error",
                 "no-shadow": "off",
                 "no-undef": "off"
+            }
+        },
+        {
+            "files": ["**/index.ts"],
+            "rules": {
+                "prettier/prettier": "off"
             }
         }
     ]

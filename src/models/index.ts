@@ -1,5 +1,5 @@
 // src/models/index.ts
-/* import "./AccountingEntry" */
+import "./AccountingEntry"
 import "./Benefict"
 import "./EntryType"
 import "./Inventory"
