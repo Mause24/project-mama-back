@@ -1,3 +1,4 @@
+export * from "./accountingEntryControllers"
 export * from "./benefictController"
 export * from "./entryTypeControllers"
 export * from "./membershipController"

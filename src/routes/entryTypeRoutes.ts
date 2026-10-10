@@ -6,6 +6,7 @@ import {
     removeEntryType,
     updateEntryType,
 } from "../controllers"
+import { PROFILES } from "../interfaces"
 import { authentication, validatorBody, validatorParams } from "../middlewares"
 import {
     createEntryTypeSchema,
@@ -26,14 +27,14 @@ entryTypeRoutes.get(
 
 entryTypeRoutes.post(
     "/",
-    authentication(),
+    authentication([PROFILES.ADMIN]),
     validatorBody(createEntryTypeSchema),
     createEntryType,
 )
 
 entryTypeRoutes.patch(
     "/:id",
-    authentication(),
+    authentication([PROFILES.ADMIN]),
     validatorParams(entryTypeIdSchema),
     validatorBody(updateEntryTypeSchema),
     updateEntryType,
@@ -41,7 +42,7 @@ entryTypeRoutes.patch(
 
 entryTypeRoutes.delete(
     "/:id",
-    authentication(),
+    authentication([PROFILES.ADMIN]),
     validatorParams(entryTypeIdSchema),
     removeEntryType,
 )
