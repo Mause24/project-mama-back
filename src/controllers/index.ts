@@ -4,7 +4,5 @@ export * from "./entryTypeControllers"
 export * from "./membershipController"
 export * from "./parameterController"
 export * from "./productController"
-export * from "./productEntryControllers"
 export * from "./subscriptionController"
 export * from "./userController"
-
