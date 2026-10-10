@@ -1,13 +1,12 @@
-import AccountingEntry from "./AccountingEntry"
+/* import AccountingEntry from "./AccountingEntry" */
 import Benefict from "./Benefict"
-import EntryType from "./EntryType"
 import Inventory from "./Inventory"
 import Membership from "./Membership"
 import Parameter from "./Parameter"
 import ParameterOption from "./ParameterOption"
 import ParameterType from "./ParameterType"
 import Product from "./Product"
-import ProductEntry from "./ProductEntry"
+/* import ProductEntry from "./ProductEntry" */
 /* import ProductParameter from "./ProductParameter" */
 import Profile from "./Profile"
 import Subscription from "./Subscription"
@@ -135,7 +134,7 @@ export const setupAssociations = () => {
     }) */
 
     /* ACCOUNTING ENTRIES, ENTRY TYPES & USER */
-    EntryType.hasMany(AccountingEntry, {
+    /*  EntryType.hasMany(AccountingEntry, {
         foreignKey: { name: "entryTypeId", allowNull: false },
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
@@ -155,10 +154,10 @@ export const setupAssociations = () => {
         foreignKey: { name: "userId", allowNull: false },
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
-    })
+    }) */
 
     /* PRODUCT ENTRY (AccountingEntry N:M Product) */
-    AccountingEntry.belongsToMany(Product, {
+    /*  AccountingEntry.belongsToMany(Product, {
         through: ProductEntry,
         foreignKey: "entryId",
         onDelete: "CASCADE",
@@ -169,5 +168,5 @@ export const setupAssociations = () => {
         foreignKey: "productId",
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
-    })
+    }) */
 }
