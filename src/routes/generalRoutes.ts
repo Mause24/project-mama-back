@@ -6,6 +6,7 @@ import { benefictRoutes } from "./benefictRoutes"
 import { membershipRoutes } from "./membershipRoutes"
 import { parameterRoutes } from "./parameterRoutes"
 import { productEntryRoutes } from "./productEntryRoutes"
+import { productParameterRoutes } from "./productParameterRoutes"
 import { productRoutes } from "./productRoutes"
 import { subscriptionRoutes } from "./subscriptionRoutes"
 import { userRoutes } from "./userRoutes"
@@ -21,6 +22,7 @@ generalRoutes.use("/products", productRoutes)
 generalRoutes.use("/parameters", parameterRoutes)
 generalRoutes.use("/accounting-entry", accountingEntryRoutes)
 generalRoutes.use("/product-entry", productEntryRoutes)
+generalRoutes.use("/product-parameter", productParameterRoutes)
 
 //DEFAULT
 generalRoutes.use("/", async (_, res) => {

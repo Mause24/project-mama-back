@@ -8,7 +8,7 @@ import ParameterOption from "./ParameterOption"
 import ParameterType from "./ParameterType"
 import Product from "./Product"
 import ProductEntry from "./ProductEntry"
-/* import ProductParameter from "./ProductParameter" */
+import ProductParameter from "./ProductParameter"
 import Profile from "./Profile"
 import Subscription from "./Subscription"
 import User from "./User"
@@ -121,7 +121,7 @@ export const setupAssociations = () => {
     })
 
     /* PRODUCT PARAMETERS (Product N:M Parameter) */
-    /*  Product.belongsToMany(Parameter, {
+    Product.belongsToMany(Parameter, {
         through: ProductParameter,
         foreignKey: "productId",
         onDelete: "CASCADE",
@@ -132,7 +132,7 @@ export const setupAssociations = () => {
         foreignKey: "parameterId",
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
-    }) */
+    })
 
     /* ACCOUNTING ENTRIES, ENTRY TYPES & USER */
     EntryType.hasMany(AccountingEntry, {
