@@ -1,5 +1,6 @@
 import { Router } from "express"
 import { RESPONSES } from "../utils"
+import { accountingEntryRoutes } from "./accountingEntryRoutes"
 import { authRoutes } from "./authRoutes"
 import { benefictRoutes } from "./benefictRoutes"
 import { membershipRoutes } from "./membershipRoutes"
@@ -17,6 +18,7 @@ generalRoutes.use("/benefict", benefictRoutes)
 generalRoutes.use("/subscription", subscriptionRoutes)
 generalRoutes.use("/products", productRoutes)
 generalRoutes.use("/parameters", parameterRoutes)
+generalRoutes.use("/accountingEntry", accountingEntryRoutes)
 
 //DEFAULT
 generalRoutes.use("/", async (_, res) => {
