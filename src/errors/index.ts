@@ -5,6 +5,7 @@ export * from "./GeneralExceptions"
 export * from "./MembershipExceptions"
 export * from "./ParameterExceptions"
 export * from "./ProductExceptions"
+export * from "./ProductParameterExceptions"
 export * from "./SubscriptionExceptions"
 export * from "./UserExceptions"
 
