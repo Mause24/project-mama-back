@@ -3,6 +3,8 @@ export * from "./benefictServices"
 export * from "./entryTypeServices"
 export * from "./membershipServices"
 export * from "./parameterServices"
+export * from "./productEntryServices"
 export * from "./productServices"
 export * from "./subscriptionServices"
 export * from "./userServices"
+
