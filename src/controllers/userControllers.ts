@@ -67,12 +67,6 @@ export const register = async (
             data: user,
         })
     } catch (error) {
-        if (error instanceof UserNotFoundException) {
-            res.status(RESPONSES.USER_NOT_FOUND.status).json({
-                message: RESPONSES.USER_NOT_FOUND.message,
-            })
-            return
-        }
         if (error instanceof UserEmailAlreadyExistException) {
             res.status(RESPONSES.EMAIL_ALREADY_EXIST.status).json({
                 message: RESPONSES.EMAIL_ALREADY_EXIST.message,

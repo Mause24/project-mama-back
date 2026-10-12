@@ -8,11 +8,13 @@ import "./Parameter"
 import "./ParameterOption"
 import "./ParameterType"
 import "./Product"
-/* import "./ProductEntry" */
-/* import "./ProductParameter" */
+import "./ProductEntry"
+import "./ProductParameter"
 import "./Profile"
 import "./Subscription"
 import "./User"
+import "./UnitType"
+import "./ProductUnit"
 
 import { setupAssociations } from "./associations"
 
