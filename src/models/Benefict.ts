@@ -36,7 +36,6 @@ Benefict.init(
     },
     {
         sequelize,
-        paranoid: true, // Mantenemos el soft delete como en Membership
         tableName: "beneficts", // Forzamos el nombre plural exacto
     },
 )

@@ -18,7 +18,6 @@ class AccountingEntry extends Model<
     declare description: string | null
     declare entryTypeId: ForeignKey<number>
     declare userId: ForeignKey<number>
-    declare createdAt: CreationOptional<Date>
 }
 
 AccountingEntry.init(
@@ -40,15 +39,11 @@ AccountingEntry.init(
             type: DataTypes.STRING(255),
             allowNull: true,
         },
-        createdAt: {
-            type: DataTypes.DATE,
-            defaultValue: DataTypes.NOW,
-        },
     },
     {
         sequelize,
+        paranoid: true,
         tableName: "accounting_entries",
-        timestamps: false,
     },
 )
 

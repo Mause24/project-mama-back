@@ -29,7 +29,6 @@ ParameterType.init(
     },
     {
         sequelize,
-        paranoid: true,
         tableName: "parameter_types",
         timestamps: false,
     },

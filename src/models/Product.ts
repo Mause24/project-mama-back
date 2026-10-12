@@ -17,7 +17,6 @@ class Product extends Model<
     declare description: CreationOptional<string>
     declare sellPrice: number
     declare buyPrice: number
-    declare unit: string
     declare stock: number
     declare userId: ForeignKey<number>
 }
@@ -43,10 +42,6 @@ Product.init(
         },
         buyPrice: {
             type: DataTypes.DECIMAL(10, 2),
-            allowNull: false,
-        },
-        unit: {
-            type: DataTypes.STRING(10),
             allowNull: false,
         },
         stock: {

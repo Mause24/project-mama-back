@@ -1,5 +1,4 @@
 import {
-    CreationOptional,
     DataTypes,
     ForeignKey,
     InferAttributes,
@@ -12,21 +11,14 @@ class ProductParameter extends Model<
     InferAttributes<ProductParameter>,
     InferCreationAttributes<ProductParameter>
 > {
-    declare id: CreationOptional<number>
     declare productId: ForeignKey<number>
     declare parameterId: ForeignKey<number>
-    declare parameterOptionId: ForeignKey<number> | null
-    declare customValue: string | null
+    declare value: string | null
 }
 
 ProductParameter.init(
     {
-        id: {
-            type: DataTypes.INTEGER.UNSIGNED,
-            autoIncrement: true,
-            primaryKey: true,
-        },
-        customValue: {
+        value: {
             type: DataTypes.STRING(255),
             allowNull: true,
         },
@@ -34,7 +26,7 @@ ProductParameter.init(
     {
         sequelize,
         tableName: "products_parameters",
-        timestamps: false,
+        paranoid: true,
     },
 )
 

@@ -37,7 +37,6 @@ Parameter.init(
     },
     {
         sequelize,
-        timestamps: false,
         tableName: "parameters",
         paranoid: true,
     },

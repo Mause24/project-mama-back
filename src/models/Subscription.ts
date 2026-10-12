@@ -14,21 +14,16 @@ class Subscription extends Model<
     InferAttributes<Subscription>,
     InferCreationAttributes<Subscription>
 > {
-    declare id: CreationOptional<number>
     declare userId: ForeignKey<number>
     declare membershipId: ForeignKey<number>
     declare startDate: CreationOptional<Date>
     declare endDate: Date
     declare status: CreationOptional<"ACTIVE" | "INACTIVE" | "EXPIRED">
+    declare hasToRenovate: boolean
 }
 
 Subscription.init(
     {
-        id: {
-            type: DataTypes.INTEGER,
-            autoIncrement: true,
-            primaryKey: true,
-        },
         userId: {
             type: DataTypes.INTEGER,
             allowNull: false,
@@ -58,6 +53,10 @@ Subscription.init(
             type: DataTypes.ENUM("ACTIVE", "INACTIVE", "EXPIRED"),
             allowNull: false,
             defaultValue: "ACTIVE",
+        },
+        hasToRenovate: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
         },
     },
     {

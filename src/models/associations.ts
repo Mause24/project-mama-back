@@ -9,8 +9,10 @@ import ParameterType from "./ParameterType"
 import Product from "./Product"
 import ProductEntry from "./ProductEntry"
 import ProductParameter from "./ProductParameter"
+import ProductUnit from "./ProductUnit"
 import Profile from "./Profile"
 import Subscription from "./Subscription"
+import UnitType from "./UnitType"
 import User from "./User"
 
 export const setupAssociations = () => {
@@ -167,6 +169,45 @@ export const setupAssociations = () => {
     Product.belongsToMany(AccountingEntry, {
         through: ProductEntry,
         foreignKey: "productId",
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
+    })
+    //RELACION DE UNIT_TYPE a PRODUCT_UNIT
+    Product.belongsToMany(UnitType, {
+        through: ProductUnit,
+        foreignKey: "productId",
+        otherKey: "unitTypeId",
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
+    })
+
+    UnitType.belongsToMany(Product, {
+        through: ProductUnit,
+        foreignKey: "unitTypeId",
+        otherKey: "productId",
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
+    })
+    ProductUnit.belongsTo(Product, {
+        foreignKey: "productId",
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
+    })
+
+    ProductUnit.belongsTo(UnitType, {
+        foreignKey: "unitTypeId",
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
+    })
+
+    Product.hasMany(ProductUnit, {
+        foreignKey: "productId",
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
+    })
+
+    UnitType.hasMany(ProductUnit, {
+        foreignKey: "unitTypeId",
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
     })
