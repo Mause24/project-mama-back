@@ -9,6 +9,7 @@ import { productEntryRoutes } from "./productEntryRoutes"
 import { productParameterRoutes } from "./productParameterRoutes"
 import { productRoutes } from "./productRoutes"
 import { subscriptionRoutes } from "./subscriptionRoutes"
+import { unitTypeRoutes } from "./unitTypeRoutes"
 import { userRoutes } from "./userRoutes"
 
 export const generalRoutes = Router()
@@ -23,6 +24,7 @@ generalRoutes.use("/parameters", parameterRoutes)
 generalRoutes.use("/accounting-entry", accountingEntryRoutes)
 generalRoutes.use("/product-entry", productEntryRoutes)
 generalRoutes.use("/product-parameter", productParameterRoutes)
+generalRoutes.use("/unit-type", unitTypeRoutes)
 
 //DEFAULT
 generalRoutes.use("/", async (_, res) => {
