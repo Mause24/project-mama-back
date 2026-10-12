@@ -10,6 +10,8 @@ import Parameter from "../models/Parameter"
 import ParameterOption from "../models/ParameterOption"
 import ParameterType from "../models/ParameterType"
 import Product from "../models/Product"
+import ProductUnit from "../models/ProductUnit"
+import UnitType from "../models/UnitType"
 import User from "../models/User"
 
 interface CreateProductInput {
@@ -54,20 +56,29 @@ export const createProduct = async (
         const createdProduct = await Product.create(data)
         return await createdProduct.reload({
             include: [
+                { model: User, attributes: ["id", "name", "email"] },
                 {
                     model: Parameter,
                     attributes: ["id", "name", "value"],
                     include: [
                         {
                             model: ParameterType,
-                            attributes: ["name"],
+                            attributes: ["id", "name"],
                         },
                         {
                             model: ParameterOption,
                             attributes: ["id", "label", "value"],
                         },
+
                     ],
                 },
+                {
+                    model: ProductUnit,
+                    attributes: ["value"],
+                    include: [
+                        { model: UnitType, attributes: ["id", "name", "value"], }
+                    ]
+                }
             ],
         })
     } catch (err) {
@@ -96,8 +107,16 @@ export const getAllProducts = async (): Promise<Product[]> => {
                         model: ParameterOption,
                         attributes: ["id", "label", "value"],
                     },
+
                 ],
             },
+            {
+                model: ProductUnit,
+                attributes: ["value"],
+                include: [
+                    { model: UnitType, attributes: ["id", "name", "value"], }
+                ]
+            }
         ],
     })
 }
@@ -107,7 +126,31 @@ export const getAllProducts = async (): Promise<Product[]> => {
  */
 export const getProductById = async (id: number): Promise<Product> => {
     const product = await Product.findByPk(id, {
-        include: [{ model: User, attributes: ["id", "name", "email"] }],
+        include: [
+            { model: User, attributes: ["id", "name", "email"] },
+            {
+                model: Parameter,
+                attributes: ["id", "name", "value"],
+                include: [
+                    {
+                        model: ParameterType,
+                        attributes: ["id", "name"],
+                    },
+                    {
+                        model: ParameterOption,
+                        attributes: ["id", "label", "value"],
+                    },
+
+                ],
+            },
+            {
+                model: ProductUnit,
+                attributes: ["value"],
+                include: [
+                    { model: UnitType, attributes: ["id", "name", "value"], }
+                ]
+            }
+        ],
     })
     if (!product) {
         throw new ProductNotFoundException()
@@ -134,7 +177,33 @@ export const updateProduct = async (
     // El try/catch solo envuelve la mutación directa del registro
     try {
         await product.update(data)
-        return product
+        return product.reload({
+            include: [
+                { model: User, attributes: ["id", "name", "email"] },
+                {
+                    model: Parameter,
+                    attributes: ["id", "name", "value"],
+                    include: [
+                        {
+                            model: ParameterType,
+                            attributes: ["id", "name"],
+                        },
+                        {
+                            model: ParameterOption,
+                            attributes: ["id", "label", "value"],
+                        },
+
+                    ],
+                },
+                {
+                    model: ProductUnit,
+                    attributes: ["value"],
+                    include: [
+                        { model: UnitType, attributes: ["id", "name", "value"], }
+                    ]
+                }
+            ],
+        })
     } catch (err) {
         throw new ProductUpdateException(
             err instanceof Error

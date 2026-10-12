@@ -9,4 +9,5 @@ export * from "./ProductExceptions"
 export * from "./ProductParameterExceptions"
 export * from "./SubscriptionExceptions"
 export * from "./UserExceptions"
-
+export * from "./ProductParameterExceptions"
+export * from "./UnitTypeExceptions"

@@ -16,6 +16,7 @@ export const createSubscription = async (data: {
     userId: number
     membershipId: number
     endDate: Date
+    hasToRenovate: boolean
     status?: "ACTIVE" | "INACTIVE" | "EXPIRED"
 }) => {
     // 1. Validar que el usuario exista
@@ -93,6 +94,7 @@ export const updateSubscription = async (
         membershipId?: number
         endDate?: Date
         status?: "ACTIVE" | "INACTIVE" | "EXPIRED"
+        hasToRenovate: boolean
     },
 ) => {
     const subscription = await Subscription.findByPk(id)

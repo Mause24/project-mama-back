@@ -1,6 +1,5 @@
 import {
     ParameterNotFoundException,
-    ParameterOptionNotFoundException,
     ProductNotFoundException,
     ProductParameterCreationException,
     ProductParameterDeletionException,
@@ -15,13 +14,11 @@ import ProductParameter from "../models/ProductParameter"
 interface CreateProductParameterInput {
     productId: number
     parameterId: number
-    parameterOptionId?: number
-    customValue?: string
+    value?: string
 }
 
 interface UpdateProductParameterInput {
-    parameterOptionId?: number
-    customValue?: string
+    value?: string
 }
 
 export const createProductParameter = async (
@@ -32,18 +29,11 @@ export const createProductParameter = async (
         throw new ProductNotFoundException()
     }
 
-    const parameterExists = await Parameter.findByPk(data.parameterId)
+    const parameterExists = await Parameter.findByPk(data.parameterId, {
+        include: [{ model: ParameterOption, attributes: ["id"] }],
+    })
     if (!parameterExists) {
         throw new ParameterNotFoundException()
-    }
-
-    if (data.parameterOptionId) {
-        const optionExists = await ParameterOption.findByPk(
-            data.parameterOptionId,
-        )
-        if (!optionExists) {
-            throw new ParameterOptionNotFoundException()
-        }
     }
 
     try {
@@ -51,8 +41,16 @@ export const createProductParameter = async (
         return await item.reload({
             include: [
                 { model: Product, attributes: ["id", "name"] },
-                { model: Parameter, attributes: ["id", "name"] },
-                { model: ParameterOption, attributes: ["id", "name", "value"] },
+                {
+                    model: Parameter,
+                    attributes: ["id", "name"],
+                    include: [
+                        {
+                            model: ParameterOption,
+                            attributes: ["id", "name", "value"],
+                        },
+                    ],
+                },
             ],
         })
     } catch (err) {
@@ -75,8 +73,16 @@ export const getProductParametersByProductId = async (
     return await ProductParameter.findAll({
         where: { productId },
         include: [
-            { model: Parameter, attributes: ["id", "name"] },
-            { model: ParameterOption, attributes: ["id", "name", "value"] },
+            {
+                model: Parameter,
+                attributes: ["id", "name"],
+                include: [
+                    {
+                        model: ParameterOption,
+                        attributes: ["id", "name", "value"],
+                    },
+                ],
+            },
         ],
     })
 }
@@ -87,8 +93,16 @@ export const getProductParameterById = async (
     const item = await ProductParameter.findByPk(id, {
         include: [
             { model: Product, attributes: ["id", "name"] },
-            { model: Parameter, attributes: ["id", "name"] },
-            { model: ParameterOption, attributes: ["id", "name", "value"] },
+            {
+                model: Parameter,
+                attributes: ["id", "name"],
+                include: [
+                    {
+                        model: ParameterOption,
+                        attributes: ["id", "name", "value"],
+                    },
+                ],
+            },
         ],
     })
     if (!item) {
@@ -103,22 +117,21 @@ export const updateProductParameter = async (
 ): Promise<ProductParameter> => {
     const item = await getProductParameterById(id)
 
-    if (data.parameterOptionId) {
-        const optionExists = await ParameterOption.findByPk(
-            data.parameterOptionId,
-        )
-        if (!optionExists) {
-            throw new ParameterOptionNotFoundException()
-        }
-    }
-
     try {
         await item.update(data)
         return await item.reload({
             include: [
                 { model: Product, attributes: ["id", "name"] },
-                { model: Parameter, attributes: ["id", "name"] },
-                { model: ParameterOption, attributes: ["id", "name", "value"] },
+                {
+                    model: Parameter,
+                    attributes: ["id", "name"],
+                    include: [
+                        {
+                            model: ParameterOption,
+                            attributes: ["id", "name", "value"],
+                        },
+                    ],
+                },
             ],
         })
     } catch (err) {

@@ -14,12 +14,12 @@ interface CreateProductEntryInput {
     productId: number
     accountingEntryId: number
     quantity: number
-    unitPrice: number
+    totalValue: number
 }
 
 interface UpdateProductEntryInput {
     quantity?: number
-    unitPrice?: number
+    totalValue?: number
 }
 
 export const createProductEntry = async (
