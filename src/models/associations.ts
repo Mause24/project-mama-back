@@ -147,6 +147,11 @@ export const setupAssociations = () => {
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
     })
+    AccountingEntry.hasMany(ProductEntry, {
+        foreignKey: { name: "entryId", allowNull: false },
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
+    })
 
     User.hasMany(AccountingEntry, {
         foreignKey: { name: "userId", allowNull: false },
@@ -171,6 +176,9 @@ export const setupAssociations = () => {
         foreignKey: "productId",
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
+    })
+    ProductEntry.belongsTo(Product, {
+        foreignKey: { name: "productId", allowNull: false },
     })
     //RELACION DE UNIT_TYPE a PRODUCT_UNIT
     Product.belongsToMany(UnitType, {
