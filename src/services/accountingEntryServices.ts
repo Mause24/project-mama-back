@@ -47,11 +47,20 @@ export const createAccountingEntry = async (
                 { model: EntryType, attributes: ["id", "name"] },
                 { model: User, attributes: ["id", "name", "email"] },
                 {
-                    model: ProductEntry, attributes: ["quantity", "totalValue"],
+                    model: ProductEntry,
+                    attributes: ["quantity", "totalValue"],
                     include: [
-                        { model: Product, attributes: ["name", "description", "buyPrice", "sellPrice"] }
-                    ]
-                }
+                        {
+                            model: Product,
+                            attributes: [
+                                "name",
+                                "description",
+                                "buyPrice",
+                                "sellPrice",
+                            ],
+                        },
+                    ],
+                },
             ],
         })
     } catch (err) {
@@ -73,7 +82,25 @@ export const getAccountingEntriesByUserId = async (
 
     return await AccountingEntry.findAll({
         where: { userId },
-        include: [{ model: EntryType, attributes: ["id", "name"] }],
+        include: [
+                { model: EntryType, attributes: ["id", "name"] },
+                { model: User, attributes: ["id", "name", "email"] },
+                {
+                    model: ProductEntry,
+                    attributes: ["quantity", "totalValue"],
+                    include: [
+                        {
+                            model: Product,
+                            attributes: [
+                                "name",
+                                "description",
+                                "buyPrice",
+                                "sellPrice",
+                            ],
+                        },
+                    ],
+                },
+            ],
         order: [["createdAt", "DESC"]],
     })
 }
@@ -83,9 +110,24 @@ export const getAccountingEntryById = async (
 ): Promise<AccountingEntry> => {
     const entry = await AccountingEntry.findByPk(id, {
         include: [
-            { model: EntryType, attributes: ["id", "name"] },
-            { model: User, attributes: ["id", "name", "email"] },
-        ],
+                { model: EntryType, attributes: ["id", "name"] },
+                { model: User, attributes: ["id", "name", "email"] },
+                {
+                    model: ProductEntry,
+                    attributes: ["quantity", "totalValue"],
+                    include: [
+                        {
+                            model: Product,
+                            attributes: [
+                                "name",
+                                "description",
+                                "buyPrice",
+                                "sellPrice",
+                            ],
+                        },
+                    ],
+                },
+            ],
     })
     if (!entry) {
         throw new AccountingEntryNotFoundException()
@@ -112,6 +154,21 @@ export const updateAccountingEntry = async (
             include: [
                 { model: EntryType, attributes: ["id", "name"] },
                 { model: User, attributes: ["id", "name", "email"] },
+                {
+                    model: ProductEntry,
+                    attributes: ["quantity", "totalValue"],
+                    include: [
+                        {
+                            model: Product,
+                            attributes: [
+                                "name",
+                                "description",
+                                "buyPrice",
+                                "sellPrice",
+                            ],
+                        },
+                    ],
+                },
             ],
         })
     } catch (err) {
