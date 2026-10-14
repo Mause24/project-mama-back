@@ -8,6 +8,8 @@ import {
 } from "../errors"
 import AccountingEntry from "../models/AccountingEntry"
 import EntryType from "../models/EntryType"
+import Product from "../models/Product"
+import ProductEntry from "../models/ProductEntry"
 import User from "../models/User"
 
 interface CreateAccountingEntryInput {
@@ -44,6 +46,12 @@ export const createAccountingEntry = async (
             include: [
                 { model: EntryType, attributes: ["id", "name"] },
                 { model: User, attributes: ["id", "name", "email"] },
+                {
+                    model: ProductEntry, attributes: ["quantity", "totalValue"],
+                    include: [
+                        { model: Product, attributes: ["name", "description", "buyPrice", "sellPrice"] }
+                    ]
+                }
             ],
         })
     } catch (err) {
