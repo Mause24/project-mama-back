@@ -69,16 +69,18 @@ export const createProduct = async (
                             model: ParameterOption,
                             attributes: ["id", "label", "value"],
                         },
-
                     ],
                 },
                 {
                     model: ProductUnit,
                     attributes: ["value"],
                     include: [
-                        { model: UnitType, attributes: ["id", "name", "value"], }
-                    ]
-                }
+                        {
+                            model: UnitType,
+                            attributes: ["id", "name", "value"],
+                        },
+                    ],
+                },
             ],
         })
     } catch (err) {
@@ -107,16 +109,15 @@ export const getAllProducts = async (): Promise<Product[]> => {
                         model: ParameterOption,
                         attributes: ["id", "label", "value"],
                     },
-
                 ],
             },
             {
                 model: ProductUnit,
                 attributes: ["value"],
                 include: [
-                    { model: UnitType, attributes: ["id", "name", "value"], }
-                ]
-            }
+                    { model: UnitType, attributes: ["id", "name", "value"] },
+                ],
+            },
         ],
     })
 }
@@ -140,16 +141,15 @@ export const getProductById = async (id: number): Promise<Product> => {
                         model: ParameterOption,
                         attributes: ["id", "label", "value"],
                     },
-
                 ],
             },
             {
                 model: ProductUnit,
                 attributes: ["value"],
                 include: [
-                    { model: UnitType, attributes: ["id", "name", "value"], }
-                ]
-            }
+                    { model: UnitType, attributes: ["id", "name", "value"] },
+                ],
+            },
         ],
     })
     if (!product) {
@@ -192,16 +192,18 @@ export const updateProduct = async (
                             model: ParameterOption,
                             attributes: ["id", "label", "value"],
                         },
-
                     ],
                 },
                 {
                     model: ProductUnit,
                     attributes: ["value"],
                     include: [
-                        { model: UnitType, attributes: ["id", "name", "value"], }
-                    ]
-                }
+                        {
+                            model: UnitType,
+                            attributes: ["id", "name", "value"],
+                        },
+                    ],
+                },
             ],
         })
     } catch (err) {
