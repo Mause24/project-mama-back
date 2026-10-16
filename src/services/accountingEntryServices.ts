@@ -83,24 +83,24 @@ export const getAccountingEntriesByUserId = async (
     return await AccountingEntry.findAll({
         where: { userId },
         include: [
-                { model: EntryType, attributes: ["id", "name"] },
-                { model: User, attributes: ["id", "name", "email"] },
-                {
-                    model: ProductEntry,
-                    attributes: ["quantity", "totalValue"],
-                    include: [
-                        {
-                            model: Product,
-                            attributes: [
-                                "name",
-                                "description",
-                                "buyPrice",
-                                "sellPrice",
-                            ],
-                        },
-                    ],
-                },
-            ],
+            { model: EntryType, attributes: ["id", "name"] },
+            { model: User, attributes: ["id", "name", "email"] },
+            {
+                model: ProductEntry,
+                attributes: ["quantity", "totalValue"],
+                include: [
+                    {
+                        model: Product,
+                        attributes: [
+                            "name",
+                            "description",
+                            "buyPrice",
+                            "sellPrice",
+                        ],
+                    },
+                ],
+            },
+        ],
         order: [["createdAt", "DESC"]],
     })
 }
@@ -110,24 +110,24 @@ export const getAccountingEntryById = async (
 ): Promise<AccountingEntry> => {
     const entry = await AccountingEntry.findByPk(id, {
         include: [
-                { model: EntryType, attributes: ["id", "name"] },
-                { model: User, attributes: ["id", "name", "email"] },
-                {
-                    model: ProductEntry,
-                    attributes: ["quantity", "totalValue"],
-                    include: [
-                        {
-                            model: Product,
-                            attributes: [
-                                "name",
-                                "description",
-                                "buyPrice",
-                                "sellPrice",
-                            ],
-                        },
-                    ],
-                },
-            ],
+            { model: EntryType, attributes: ["id", "name"] },
+            { model: User, attributes: ["id", "name", "email"] },
+            {
+                model: ProductEntry,
+                attributes: ["quantity", "totalValue"],
+                include: [
+                    {
+                        model: Product,
+                        attributes: [
+                            "name",
+                            "description",
+                            "buyPrice",
+                            "sellPrice",
+                        ],
+                    },
+                ],
+            },
+        ],
     })
     if (!entry) {
         throw new AccountingEntryNotFoundException()

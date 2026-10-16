@@ -3,8 +3,10 @@ import {
     CannotCreateBenefictException,
     CannotDeleteBenefictException,
     CannotUpdateBenefictException,
+    MembershipNotFoundException,
 } from "../errors"
 import Benefict from "../models/Benefict"
+import Membership from "../models/Membership"
 
 /* -------------------------------------------------------------------------- */
 /* CRUD – exportado como funciones modulares                                 */
@@ -18,8 +20,10 @@ export const createBenefict = async (
     membershipId: number,
     description?: string,
 ): Promise<Benefict> => {
-    // Validaciones de entrada
-    validateName(name)
+    const membershipExists = await Membership.findByPk(membershipId)
+    if (!membershipExists) {
+        throw new MembershipNotFoundException()
+    }
 
     // Persistencia
     return await Benefict.create({ name, description, membershipId })
@@ -71,8 +75,18 @@ export const updateBenefict = async (
 /**
  * Obtiene todos los beneficios.
  */
-export const getAllBenefict = async (): Promise<Benefict[]> => {
-    return await Benefict.findAll()
+export const getAllBenefictByMembershipId = async (
+    membershipId: number,
+): Promise<Benefict[]> => {
+    const membershipExists = await Membership.findByPk(membershipId)
+    if (!membershipExists) {
+        throw new MembershipNotFoundException()
+    }
+
+    return await Benefict.findAll({
+        where: { membershipId },
+        order: [["createdAt", "DESC"]],
+    })
 }
 
 /**
