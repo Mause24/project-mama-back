@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from "express"
+import { NextFunction, Request, Response } from "express"
 import Joi from "joi"
 import { RESPONSES } from "../utils"
 
@@ -11,7 +11,7 @@ export const validatorBody = (schema: Joi.Schema) => {
             })
         }
 
-        const { error } = schema.validate(req.body)
+        const { error } = schema.validate(req.body, { convert: false })
 
         if (error) {
             return res.status(RESPONSES.BAD_REQUEST.status).json({
