@@ -9,8 +9,8 @@ export const createBenefictSchema = Joi.object({
         "string.base": "La descripción debe ser un texto",
     }),
     membershipId: Joi.number().integer().required().messages({
-        "number.base": "El ID de la membresía debe ser un número",
-        "any.required": "El ID de la membresía es requerido",
+        "number.base": "El ID de la membresia debe ser un número",
+        "any.required": "El ID de la membresia es requerido",
     }),
 })
 
@@ -29,4 +29,7 @@ export const updateBenefictSchema = Joi.object({
 
 export const benefictIdSchema = Joi.object({
     id: Joi.number().integer().required(),
+})
+export const getBenefictByMembershipIdSchema = Joi.object({
+    membershipId: Joi.number().integer().required(),
 })
