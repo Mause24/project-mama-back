@@ -1,7 +1,7 @@
 import { Router } from "express"
 import {
     createBenefict,
-    getAllBenefict,
+    getAllBenefictByMembershipId,
     getBenefictById,
     removeBenefict,
     updateBenefict,
@@ -11,13 +11,19 @@ import { authentication, validatorBody, validatorParams } from "../middlewares"
 import {
     benefictIdSchema,
     createBenefictSchema,
+    getBenefictByMembershipIdSchema,
     updateBenefictSchema,
 } from "../schemas"
 
 export const benefictRoutes = Router()
 
 // LIST ALL – GET /benefict (cualquier usuario autenticado)
-benefictRoutes.get("/", authentication(), getAllBenefict)
+benefictRoutes.get(
+    "/membership/:membershipId",
+    authentication(),
+    validatorParams(getBenefictByMembershipIdSchema),
+    getAllBenefictByMembershipId,
+)
 
 // CREATE – POST /benefict (solo ADMIN)
 benefictRoutes.post(

@@ -4,11 +4,12 @@ import {
     CannotCreateBenefictException,
     CannotDeleteBenefictException,
     CannotUpdateBenefictException,
+    MembershipNotFoundException,
 } from "../errors"
 import {
     createBenefict as createBenefictService,
     deleteBenefict as deleteBenefictService,
-    getAllBenefict as getAllBenefictService,
+    getAllBenefictByMembershipId as getAllBenefictByMembershipIdService,
     getBenefictById as getBenefictByIdService,
     updateBenefict as updateBenefictService,
 } from "../services"
@@ -17,9 +18,14 @@ import { RESPONSES } from "../utils"
 /* -------------------------------------------------------------------------- */
 /* GET ALL - GET /benefict (cualquier usuario autenticado)                  */
 /* -------------------------------------------------------------------------- */
-export const getAllBenefict = async (_req: Request, res: Response) => {
+export const getAllBenefictByMembershipId = async (
+    req: Request,
+    res: Response,
+) => {
     try {
-        const beneficts = await getAllBenefictService()
+        const membershipId = Number(req.params.membershipId)
+        const beneficts =
+            await getAllBenefictByMembershipIdService(membershipId)
         res.status(RESPONSES.OK.status).json({
             message: RESPONSES.OK.message,
             data: beneficts,
@@ -57,6 +63,12 @@ export const createBenefict = async (
         })
     } catch (error) {
         if (error instanceof CannotCreateBenefictException) {
+            res.status(RESPONSES.BAD_REQUEST.status).json({
+                message: error.message,
+            })
+            return
+        }
+        if (error instanceof MembershipNotFoundException) {
             res.status(RESPONSES.BAD_REQUEST.status).json({
                 message: error.message,
             })
