@@ -27,9 +27,3 @@ export class CannotDeleteBenefictException extends GeneralException {
         this.name = "CannotDeleteBenefictException"
     }
 }
-export class MembershipNotFoundException extends GeneralException {
-    constructor(message = "La membresia no ha sido encontrada") {
-        super(message)
-        this.name = "MembershipNotFoundException"
-    }
-}

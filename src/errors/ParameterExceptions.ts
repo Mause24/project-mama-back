@@ -14,15 +14,6 @@ export class ParameterCreationException extends Error {
     }
 }
 
-export class InventoryNotFoundException extends Error {
-    constructor(
-        message: string = "El inventario no existe o no fue encontrado",
-    ) {
-        super(message)
-        this.name = "InventoryNotFoundException"
-    }
-}
-
 export class ParameterDeletionException extends Error {
     constructor(message: string = "Error al eliminar el parámetro") {
         super(message)
