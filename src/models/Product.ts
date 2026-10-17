@@ -18,13 +18,13 @@ class Product extends Model<
     declare sellPrice: number
     declare buyPrice: number
     declare stock: number
-    declare userId: ForeignKey<number>
+    declare inventoryId: ForeignKey<number>
 }
 
 Product.init(
     {
         id: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.INTEGER.UNSIGNED,
             autoIncrement: true,
             primaryKey: true,
         },
@@ -45,7 +45,7 @@ Product.init(
             allowNull: false,
         },
         stock: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.INTEGER.UNSIGNED,
             allowNull: false,
             defaultValue: 0,
         },

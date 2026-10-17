@@ -19,7 +19,7 @@ class Membership extends Model<
 Membership.init(
     {
         id: {
-            type: DataTypes.BIGINT,
+            type: DataTypes.INTEGER.UNSIGNED,
             autoIncrement: true,
             primaryKey: true,
         },

@@ -136,19 +136,41 @@ export const setupAssociations = () => {
         onUpdate: "CASCADE",
     })
 
-    /* ACCOUNTING ENTRIES, ENTRY TYPES & USER */
+    /* ACCOUNTING ENTRIES */
+    /* ACCOUNTING ENTRIES to ENTRIES TYPES relation (N:1) */
+    AccountingEntry.belongsTo(EntryType, {
+        foreignKey: { name: "entryTypeId", allowNull: false },
+    })
+    /* ENTRIES TYPES to ACCOUNTING ENTRIES relation (1:N) */
     EntryType.hasMany(AccountingEntry, {
         foreignKey: { name: "entryTypeId", allowNull: false },
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
     })
+    /* ACCOUNTING ENTRIES to USERS relation (N:1) */
+    AccountingEntry.belongsTo(User, {
+        foreignKey: { name: "userId", allowNull: false },
+    })
+    /* USERS to ACCOUNTING ENTRIES relation (1:N) */
+    User.hasMany(AccountingEntry, {
+        foreignKey: { name: "userId", allowNull: false },
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
+    })
+
+    /*  EntryType.hasMany(AccountingEntry, {
+        foreignKey: { name: "entryTypeId", allowNull: false },
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
+    })
+
     AccountingEntry.belongsTo(EntryType, {
         foreignKey: { name: "entryTypeId", allowNull: false },
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
     })
     AccountingEntry.hasMany(ProductEntry, {
-        foreignKey: { name: "entryId", allowNull: false },
+        foreignKey: { name: "entryTypeId", allowNull: false },
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
     })
@@ -162,7 +184,7 @@ export const setupAssociations = () => {
         foreignKey: { name: "userId", allowNull: false },
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
-    })
+    }) */
 
     /* PRODUCT ENTRY (AccountingEntry N:M Product) */
     AccountingEntry.belongsToMany(Product, {
@@ -171,17 +193,36 @@ export const setupAssociations = () => {
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
     })
+
     Product.belongsToMany(AccountingEntry, {
         through: ProductEntry,
         foreignKey: "productId",
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
     })
+
     ProductEntry.belongsTo(Product, {
         foreignKey: { name: "productId", allowNull: false },
     })
+
+    Product.hasMany(ProductEntry, {
+        foreignKey: { name: "productId", allowNull: false },
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
+    })
+
+    ProductEntry.belongsTo(AccountingEntry, {
+        foreignKey: { name: "entryId", allowNull: false },
+    })
+
+    AccountingEntry.hasMany(ProductEntry, {
+        foreignKey: { name: "entryId", allowNull: false },
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
+    })
+
     //RELACION DE UNIT_TYPE a PRODUCT_UNIT
-    Product.belongsToMany(UnitType, {
+    /* Product.belongsToMany(UnitType, {
         through: ProductUnit,
         foreignKey: "productId",
         otherKey: "unitTypeId",
@@ -195,7 +236,19 @@ export const setupAssociations = () => {
         otherKey: "productId",
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
+    }) */
+    Product.hasOne(ProductUnit, {
+        foreignKey: "productId",
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
     })
+
+    UnitType.hasMany(ProductUnit, {
+        foreignKey: "unitTypeId",
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
+    })
+
     ProductUnit.belongsTo(Product, {
         foreignKey: "productId",
         onDelete: "CASCADE",
@@ -208,7 +261,7 @@ export const setupAssociations = () => {
         onUpdate: "CASCADE",
     })
 
-    Product.hasMany(ProductUnit, {
+    /*  Product.hasMany(ProductUnit, {
         foreignKey: "productId",
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
@@ -218,5 +271,5 @@ export const setupAssociations = () => {
         foreignKey: "unitTypeId",
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
-    })
+    }) */
 }

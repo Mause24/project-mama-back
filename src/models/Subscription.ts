@@ -25,7 +25,7 @@ class Subscription extends Model<
 Subscription.init(
     {
         userId: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.INTEGER.UNSIGNED,
             allowNull: false,
             references: {
                 model: User,
@@ -33,7 +33,7 @@ Subscription.init(
             },
         },
         membershipId: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.INTEGER.UNSIGNED,
             allowNull: false,
             references: {
                 model: Membership,

@@ -12,7 +12,7 @@ class ProductEntry extends Model<
     InferCreationAttributes<ProductEntry>
 > {
     declare productId: ForeignKey<number>
-    declare accountingEntryId: ForeignKey<number>
+    declare entryId: ForeignKey<number>
     declare quantity: number
     declare totalValue: number
 }
