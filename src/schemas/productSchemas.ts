@@ -1,4 +1,5 @@
 import Joi from "joi"
+import { UNIT_TYPE } from "../interfaces"
 
 // createProductSchema
 export const createProductSchema = Joi.object({
@@ -20,16 +21,32 @@ export const createProductSchema = Joi.object({
         number: "El precio debe ser un número",
         positive: "El precio debe ser mayor a 0",
     }),
-    unit: Joi.string().required().min(1).max(10).messages({
-        required: "La unidad es requerida",
-        min: "La unidad debe tener al menos 1 caracter",
-        max: "La unidad no puede exceder los 10 caracteres",
-    }),
 
     stock: Joi.number().integer().required().min(0).messages({
         required: "El stock es requerido",
         integer: "El stock debe ser un número entero",
         min: "El stock no puede ser negativo",
+    }),
+    inventoryId: Joi.number().integer().required().messages({
+        required: "El ID del inventario es requerido",
+        integer: "El  ID del inventario debe ser un número entero",
+    }),
+    unitTypeId: Joi.number().integer().required().messages({
+        required: "El ID de la unidad es requerido",
+        integer: "El  ID de la unidad debe ser un número entero",
+    }),
+    unitValue: Joi.when("entryTypeId", {
+        is: Joi.not(UNIT_TYPE.OTROS), // Evalua si es un
+        then: Joi.string().required().messages({
+            string: "El valor de la unidad debe ser un texto",
+            required: "El valor de la unidad es requerido",
+        }),
+        otherwise: Joi.forbidden().messages({
+            "any.unknown":
+                "El campo unitValue no está permitido para este tipo de unidad",
+            "any.forbidden":
+                "El campo unitValue no está permitido para este tipo de unidad",
+        }),
     }),
 })
 

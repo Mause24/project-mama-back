@@ -6,8 +6,8 @@ export const createProductEntrySchema = Joi.object({
         "any.required": "El producto es obligatorio",
     }),
     accountingEntryId: Joi.number().integer().positive().required().messages({
-        "number.base": "El ID de la entrada contable debe ser un número",
-        "any.required": "La entrada contable es obligatoria",
+        "number.base": "El ID de la registro contable debe ser un número",
+        "any.required": "La registro contable es obligatoria",
     }),
     quantity: Joi.number().integer().positive().required().messages({
         "number.positive": "La cantidad debe ser mayor a 0",

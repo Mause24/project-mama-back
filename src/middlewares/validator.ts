@@ -31,7 +31,7 @@ export const validatorParams = (schema: Joi.Schema) => {
             })
         }
 
-        const { error } = schema.validate(req.params)
+        const { error } = schema.validate(req.params, { convert: false })
         if (error) {
             return res.status(RESPONSES.BAD_REQUEST.status).json({
                 message: error.message,
