@@ -1,13 +1,13 @@
 import { Request, Response } from "express"
 import {
+    InventoryNotFoundException,
     ProductCreationException,
     ProductDeletionException,
     ProductNotFoundException,
     ProductStockException,
     ProductUpdateException,
-    UserNotFoundException,
+    UnitTypeNotFoundException,
 } from "../errors"
-import { JWTInterface } from "../interfaces"
 import {
     createProduct as createProductService,
     getAllProducts as getAllProductsService,
@@ -22,33 +22,31 @@ import { RESPONSES } from "../utils"
  */
 export const createProduct = async (req: Request, res: Response) => {
     try {
-        const userObject = JSON.parse(String(req.query["jwt"])) as JWTInterface
-
-        const newProduct = await createProductService({
-            ...req.body,
-            userId: userObject.id,
-        })
+        const newProduct = await createProductService(req.body)
 
         res.status(RESPONSES.CREATED.status).json({
             message: RESPONSES.CREATED.message,
             data: newProduct,
         })
     } catch (error) {
-        if (error instanceof UserNotFoundException) {
-            res.status(RESPONSES.NOT_FOUND.status).json({
-                message: error.message,
-            })
-            return
-        }
-
-        if (
-            error instanceof ProductStockException ||
-            error instanceof ProductCreationException
-        ) {
-            res.status(RESPONSES.BAD_REQUEST.status).json({
-                message: error.message,
-            })
-            return
+        switch (true) {
+            case error instanceof InventoryNotFoundException:
+            case error instanceof UnitTypeNotFoundException:
+                res.status(RESPONSES.NOT_FOUND.status).json({
+                    message: error.message,
+                })
+                break
+            case error instanceof ProductStockException:
+            case error instanceof ProductCreationException:
+                res.status(RESPONSES.BAD_REQUEST.status).json({
+                    message: error.message,
+                })
+                break
+            default:
+                res.status(RESPONSES.SERVER_ERROR.status).json({
+                    message: RESPONSES.SERVER_ERROR.message,
+                })
+                break
         }
 
         console.error(error)

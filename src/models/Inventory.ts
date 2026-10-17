@@ -21,7 +21,7 @@ class Inventory extends Model<
 Inventory.init(
     {
         id: {
-            type: DataTypes.BIGINT,
+            type: DataTypes.INTEGER.UNSIGNED,
             autoIncrement: true,
             primaryKey: true,
         },
@@ -31,7 +31,7 @@ Inventory.init(
         },
         description: {
             type: DataTypes.STRING(100),
-            allowNull: false,
+            allowNull: true,
         },
     },
     {

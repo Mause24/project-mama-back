@@ -12,9 +12,7 @@ export const onConnect = async () => {
         initModels()
 
         // 2. Sincronización automática de Sequelize desactivando llaves foráneas durante el DDL
-        await sequelize.query("SET FOREIGN_KEY_CHECKS = 0;")
         await sequelize.sync() // Sequelize crea TODAS las tablas registradas automáticamente
-        await sequelize.query("SET FOREIGN_KEY_CHECKS = 1;")
 
         console.log("All models were synchronized successfully.")
 
