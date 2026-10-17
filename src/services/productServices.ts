@@ -1,11 +1,15 @@
+import { sequelize } from "../connection"
 import {
+    CannotCreateProductUnitException,
+    InventoryNotFoundException,
     ProductCreationException,
     ProductDeletionException,
     ProductNotFoundException,
     ProductStockException,
     ProductUpdateException,
-    UserNotFoundException,
+    UnitTypeNotFoundException,
 } from "../errors"
+import Inventory from "../models/Inventory"
 import Parameter from "../models/Parameter"
 import ParameterOption from "../models/ParameterOption"
 import ParameterType from "../models/ParameterType"
@@ -19,9 +23,10 @@ interface CreateProductInput {
     description?: string
     sellPrice: number
     buyPrice: number
-    unit: string
     stock: number
-    userId: number
+    inventoryId: number
+    unitTypeId: number
+    unitValue?: string
 }
 
 interface UpdateProductInput {
@@ -29,8 +34,10 @@ interface UpdateProductInput {
     description?: string
     sellPrice?: number
     buyPrice?: number
-    unit?: string
     stock?: number
+    inventoryId?: number
+    unitTypeId?: number
+    unitValue?: string
 }
 
 /**
@@ -39,49 +46,75 @@ interface UpdateProductInput {
 export const createProduct = async (
     data: CreateProductInput,
 ): Promise<Product> => {
+    const { unitTypeId, unitValue, ...rest } = data
     // Validación preventiva (Short-Circuit)
-    const userExists = await User.findByPk(data.userId)
-    if (!userExists) {
-        throw new UserNotFoundException()
+    const inventoryExists = await User.findByPk(rest.inventoryId)
+    if (!inventoryExists) {
+        throw new InventoryNotFoundException()
     }
 
-    if (data.stock < 0) {
+    if (rest.stock < 0) {
         throw new ProductStockException(
             "No se puede registrar un producto con inventario inicial negativo.",
         )
     }
 
+    const unitTypeExist = await UnitType.findByPk(unitTypeId)
+    if (!unitTypeExist) {
+        throw new UnitTypeNotFoundException()
+    }
     // El try/catch solo envuelve la persistencia pura en la base de datos
     try {
-        const createdProduct = await Product.create(data)
-        return await createdProduct.reload({
-            include: [
-                { model: User, attributes: ["id", "name", "email"] },
+        return await sequelize.transaction(async transaction => {
+            const createdProduct = await Product.create(rest, { transaction })
+
+            if (!createdProduct) {
+                throw new ProductCreationException()
+            }
+
+            const productUnitExists = await ProductUnit.create(
                 {
-                    model: Parameter,
-                    attributes: ["id", "name", "value"],
-                    include: [
-                        {
-                            model: ParameterType,
-                            attributes: ["id", "name"],
-                        },
-                        {
-                            model: ParameterOption,
-                            attributes: ["id", "label", "value"],
-                        },
-                    ],
+                    productId: createdProduct.id,
+                    unitTypeId: unitTypeId,
+                    value: unitValue,
                 },
-                {
-                    model: ProductUnit,
-                    attributes: ["value"],
-                    include: [
-                        {
-                            model: UnitType,
-                            attributes: ["id", "name", "value"],
-                        },
-                    ],
-                },
-            ],
+                { transaction },
+            )
+
+            if (!productUnitExists) {
+                throw new CannotCreateProductUnitException()
+            }
+
+            return await createdProduct.reload({
+                transaction,
+                include: [
+                    { model: Inventory, attributes: ["id", "name"] },
+                    {
+                        model: Parameter,
+                        attributes: ["id", "name", "configuration"],
+                        include: [
+                            {
+                                model: ParameterType,
+                                attributes: ["id", "name"],
+                            },
+                            {
+                                model: ParameterOption,
+                                attributes: ["id", "value"],
+                            },
+                        ],
+                    },
+                    {
+                        model: ProductUnit,
+                        attributes: ["value"],
+                        include: [
+                            {
+                                model: UnitType,
+                                attributes: ["id", "name", "value"],
+                            },
+                        ],
+                    },
+                ],
+            })
         })
     } catch (err) {
         throw new ProductCreationException(

@@ -1,11 +1,14 @@
+import { sequelize } from "../connection"
 import {
     AccountingEntryCreationException,
     AccountingEntryDeletionException,
     AccountingEntryNotFoundException,
     AccountingEntryUpdateException,
     EntryTypeNotFoundException,
+    ProductNotFoundException,
     UserNotFoundException,
 } from "../errors"
+import { ENTRY_TYPE } from "../interfaces"
 import AccountingEntry from "../models/AccountingEntry"
 import EntryType from "../models/EntryType"
 import Product from "../models/Product"
@@ -14,10 +17,16 @@ import User from "../models/User"
 
 interface CreateAccountingEntryInput {
     name: string
-    value: number
+    value?: number
     description?: string
     entryTypeId: number
     userId: number
+    products?: Products[]
+}
+
+interface Products {
+    productId: number
+    quantity: number
 }
 
 interface UpdateAccountingEntryInput {
@@ -30,38 +39,93 @@ interface UpdateAccountingEntryInput {
 export const createAccountingEntry = async (
     data: CreateAccountingEntryInput,
 ): Promise<AccountingEntry> => {
-    const userExists = await User.findByPk(data.userId)
+    const { products, ...rest } = data
+    const productsToCreate: {
+        productId: number
+        quantity: number
+        totalValue: number
+    }[] = []
+
+    const userExists = await User.findByPk(rest.userId)
     if (!userExists) {
         throw new UserNotFoundException()
     }
 
-    const typeExists = await EntryType.findByPk(data.entryTypeId)
+    const typeExists = await EntryType.findByPk(rest.entryTypeId)
+
     if (!typeExists) {
         throw new EntryTypeNotFoundException()
     }
 
+    if (products && products.length > 0) {
+        for (const product of products) {
+            const productExist = await Product.findByPk(product.productId)
+            if (!productExist) {
+                throw new ProductNotFoundException(
+                    `El producto con el id ${product.productId} no existe o no se encuentra`,
+                )
+            }
+            productsToCreate.push({
+                ...product,
+                totalValue:
+                    rest.entryTypeId === ENTRY_TYPE.IN ||
+                    rest.entryTypeId === ENTRY_TYPE.COMPLEX_IN
+                        ? productExist.sellPrice * product.quantity
+                        : productExist.buyPrice * product.quantity,
+            })
+        }
+    }
+
     try {
-        const entry = await AccountingEntry.create(data)
-        return await entry.reload({
-            include: [
-                { model: EntryType, attributes: ["id", "name"] },
-                { model: User, attributes: ["id", "name", "email"] },
+        return await sequelize.transaction(async transaction => {
+            const AccountingEntryExist = await AccountingEntry.create(
                 {
-                    model: ProductEntry,
-                    attributes: ["quantity", "totalValue"],
-                    include: [
-                        {
-                            model: Product,
-                            attributes: [
-                                "name",
-                                "description",
-                                "buyPrice",
-                                "sellPrice",
-                            ],
-                        },
-                    ],
+                    ...rest,
+                    value:
+                        rest.value ??
+                        productsToCreate.reduce(
+                            (prv, crr) => prv + crr.totalValue,
+                            0,
+                        ),
                 },
-            ],
+                { transaction },
+            )
+            if (!AccountingEntryExist) {
+                throw new AccountingEntryCreationException()
+            }
+
+            if (productsToCreate && productsToCreate.length > 0) {
+                await ProductEntry.bulkCreate(
+                    productsToCreate.map(product => ({
+                        ...product,
+                        entryId: AccountingEntryExist.id,
+                    })),
+                    { transaction },
+                )
+            }
+
+            return await AccountingEntryExist.reload({
+                transaction,
+                include: [
+                    { model: EntryType, attributes: ["id", "name"] },
+                    { model: User, attributes: ["id", "name", "email"] },
+                    {
+                        model: ProductEntry,
+                        attributes: ["quantity", "totalValue"],
+                        include: [
+                            {
+                                model: Product,
+                                attributes: [
+                                    "name",
+                                    "description",
+                                    "buyPrice",
+                                    "sellPrice",
+                                ],
+                            },
+                        ],
+                    },
+                ],
+            })
         })
     } catch (err) {
         throw new AccountingEntryCreationException(

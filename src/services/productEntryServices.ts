@@ -12,7 +12,7 @@ import ProductEntry from "../models/ProductEntry"
 
 interface CreateProductEntryInput {
     productId: number
-    accountingEntryId: number
+    entryId: number
     quantity: number
     totalValue: number
 }
@@ -30,7 +30,7 @@ export const createProductEntry = async (
         throw new ProductNotFoundException()
     }
 
-    const entryExists = await AccountingEntry.findByPk(data.accountingEntryId)
+    const entryExists = await AccountingEntry.findByPk(data.entryId)
     if (!entryExists) {
         throw new AccountingEntryNotFoundException()
     }
@@ -53,15 +53,15 @@ export const createProductEntry = async (
 }
 
 export const getProductEntriesByAccountingEntryId = async (
-    accountingEntryId: number,
+    entryId: number,
 ): Promise<ProductEntry[]> => {
-    const entryExists = await AccountingEntry.findByPk(accountingEntryId)
+    const entryExists = await AccountingEntry.findByPk(entryId)
     if (!entryExists) {
         throw new AccountingEntryNotFoundException()
     }
 
     return await ProductEntry.findAll({
-        where: { accountingEntryId },
+        where: { entryId },
         include: [{ model: Product, attributes: ["id", "name", "price"] }],
     })
 }
